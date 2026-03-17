@@ -1,0 +1,271 @@
+{
+  "factions": {
+    "falcon":       { "id": "falcon",       "label": "Black Falcons", "color": "#60a5fa" },
+    "lion":         { "id": "lion",         "label": "Lion Knights",  "color": "#fbbf24" },
+    "monster":      { "id": "monster",      "label": "Monsters",      "color": "#c084fc" },
+    "unaffiliated": { "id": "unaffiliated", "label": "Unaffiliated",  "color": "#766352" },
+    "forestmen":    { "id": "forestmen",    "label": "Forestmen",     "color": "#4ade80" },
+    "viking":       { "id": "viking",       "label": "Vikings",       "color": "#fb923c" }
+  },
+  "units": [
+
+
+    {
+      "id": "paragon", "faction": "falcon",
+      "name": "Falcon Paragon", "role": "Elite Melee",
+      "mp": 12, "pr": 2, "mov": 3, "dmg": 3,
+      "weapon": "Heavy Weapon", "wtype": "Melee",
+      "specials": ["Veteran", "Heavy Armour"],
+      "abilities": []
+    },
+    {
+      "id": "grandmaster", "faction": "falcon",
+      "name": "Falcon Grandmaster", "role": "Hero",
+      "mp": 13, "pr": 2, "mov": 2, "dmg": 2,
+      "weapon": "Normal Weapon", "wtype": "Melee",
+      "specials": ["Master", "Full Armour", "Perfect Poise", "Ranged Parry", "Old"],
+      "abilities": [
+        { "name": "Perfect Poise",  "desc": "Recover 1 Current Poise after every action if not Hit." },
+        { "name": "Ranged Parry",   "desc": "Once per turn, deflect a successful ranged attack for free." },
+        { "name": "Old",            "desc": "+2 Max Poise. Moves at half speed." }
+      ]
+    },
+    {
+      "id": "vanguard", "faction": "falcon",
+      "name": "Falcon Vanguard", "role": "Heavy Melee",
+      "mp": 8, "pr": 2, "mov": 4, "dmg": 3,
+      "weapon": "Heavy Weapon", "wtype": "Melee",
+      "specials": ["Experienced", "Full Armour"],
+      "abilities": []
+    },
+    {
+      "id": "militia", "faction": "falcon",
+      "name": "Falcon Militia", "role": "Light Melee",
+      "mp": 6, "pr": 4, "mov": 4, "dmg": 2,
+      "weapon": "Normal Weapon", "wtype": "Melee",
+      "specials": ["Novice", "Light Armour"],
+      "abilities": []
+    },
+
+
+    {
+      "id": "captain", "faction": "lion",
+      "name": "Lion Captain", "role": "Commander",
+      "mp": 9, "pr": 3, "mov": 4, "dmg": 2,
+      "weapon": "Normal Weapon", "wtype": "Melee",
+      "specials": ["Veteran", "Partial Armour"],
+      "abilities": []
+    },
+    {
+      "id": "footman", "faction": "lion",
+      "name": "Lion Footman", "role": "Line Infantry",
+      "mp": 6, "pr": 3, "mov": 4, "dmg": 2,
+      "weapon": "Normal Weapon", "wtype": "Melee",
+      "specials": ["Greenhorn", "Partial Armour"],
+      "abilities": []
+    },
+    {
+      "id": "guard", "faction": "lion",
+      "name": "Town Guard", "role": "Line Infantry",
+      "mp": 5, "pr": 4, "mov": 4, "dmg": 2,
+      "weapon": "Normal Weapon", "wtype": "Melee",
+      "specials": ["Greenhorn", "Light Armour"],
+      "abilities": []
+    },
+    {
+      "id": "crossbow", "faction": "lion",
+      "name": "Lion Crossbowman", "role": "Ranged",
+      "mp": 5, "pr": 4, "mov": 4, "dmg": 3,
+      "weapon": "Heavy Crossbow", "wtype": "Ranged",
+      "specials": ["Novice", "Light Armour"],
+      "abilities": []
+    },
+    {
+      "id": "lion_heavy_archer", "faction": "lion",
+      "name": "Lion Heavy Archer", "role": "Heavy Ranged",
+      "mp": 6, "pr": 3, "mov": 4, "dmg": 3,
+      "weapon": "Heavy Bow", "wtype": "Ranged",
+      "specials": ["Experienced", "Partial Armour"],
+      "abilities": []
+    },
+
+
+    {
+      "id": "forestmen_leader", "faction": "forestmen",
+      "name": "Forestmen Leader", "role": "Commander",
+      "mp": 8, "pr": 3, "mov": 4, "dmg": 2,
+      "weapon": "Normal Weapon", "wtype": "Melee",
+      "specials": ["Experienced", "Partial Armour"],
+      "abilities": []
+    },
+    {
+      "id": "forestmen_archer", "faction": "forestmen",
+      "name": "Forestmen Archer", "role": "Ranged Skirmisher",
+      "mp": 6, "pr": 4, "mov": 4, "dmg": 2,
+      "weapon": "Bow", "wtype": "Ranged",
+      "specials": ["Novice", "Light Armour"],
+      "abilities": []
+    },
+
+    {
+      "id": "berserker", "faction": "viking",
+      "name": "Viking Berserker", "role": "Heavy Melee",
+      "mp": 7, "pr": 4, "mov": 4, "dmg": 3,
+      "weapon": "Heavy Weapon", "wtype": "Melee",
+      "specials": ["Experienced", "Light Armour", "Hardy"],
+      "abilities": [
+        { "name": "Hardy", "desc": "+1 Max Poise from tough constitution." }
+      ]
+    },
+    {
+      "id": "huscarl", "faction": "viking",
+      "name": "Viking Huscarl", "role": "Melee",
+      "mp": 6, "pr": 4, "mov": 4, "dmg": 3,
+      "weapon": "Heavy Weapon", "wtype": "Melee",
+      "specials": ["Experienced", "Light Armour", "Hardy"],
+      "abilities": [
+        { "name": "Hardy", "desc": "+1 Max Poise from tough constitution." }
+      ]
+    },
+
+
+    {
+      "id": "vampire", "faction": "monster",
+      "name": "Vampire", "role": "Hero / Undead",
+      "mp": 9, "pr": 0, "mov": 4, "dmg": 2,
+      "weapon": "Normal Weapon", "wtype": "Melee",
+      "specials": ["Master", "Undead", "Perfect Poise"],
+      "abilities": [
+        { "name": "Undead",        "desc": "Does not regenerate Poise when Hit." },
+        { "name": "Perfect Poise", "desc": "Recover 1 Current Poise after every action if not Hit." }
+      ]
+    },
+    {
+      "id": "skeleton", "faction": "monster",
+      "name": "Skeleton", "role": "Undead",
+      "mp": 5, "pr": 0, "mov": 4, "dmg": 2,
+      "weapon": "Normal Weapon", "wtype": "Melee",
+      "specials": ["Novice", "Undead"],
+      "abilities": [
+        { "name": "Undead", "desc": "Does not regenerate Poise when Hit." }
+      ]
+    },
+    {
+      "id": "skeleton_champion", "faction": "monster",
+      "name": "Skeletal Champion", "role": "Champion / Undead",
+      "mp": 9, "pr": 0, "mov": 4, "dmg": 3,
+      "weapon": "Heavy Weapon", "wtype": "Melee",
+      "specials": ["Veteran", "Heavy Armour", "Undead"],
+      "abilities": [
+        { "name": "Undead", "desc": "Does not regenerate Poise when Hit." }
+      ]
+    },
+    {
+      "id": "harpy", "faction": "monster",
+      "name": "Harpy", "role": "Flying Skirmisher",
+      "mp": 7, "pr": 4, "mov": 4, "dmg": 2,
+      "weapon": "Claws", "wtype": "Melee",
+      "specials": ["Experienced", "Flight"],
+      "abilities": [
+        { "name": "Flight", "desc": "May move to any elevation within 4 units. Disengage from melee freely for 2 Current Poise." }
+      ]
+    },
+
+    {
+      "id": "rabble", "faction": "unaffiliated",
+      "name": "Peasant Rabble", "role": "Mob",
+      "mp": 4, "pr": 4, "mov": 4, "dmg": 1,
+      "weapon": "Improvised Weapon", "wtype": "Melee",
+      "specials": ["Greenhorn"],
+      "abilities": []
+    },
+    {
+      "id": "outlaw", "faction": "unaffiliated",
+      "name": "Outlaw", "role": "Light Melee",
+      "mp": 5, "pr": 4, "mov": 4, "dmg": 1,
+      "weapon": "Light Weapon", "wtype": "Melee",
+      "specials": ["Greenhorn"],
+      "abilities": []
+    },
+    {
+      "id": "hunter", "faction": "unaffiliated",
+      "name": "Hunter", "role": "Ranged Skirmisher",
+      "mp": 6, "pr": 4, "mov": 4, "dmg": 2,
+      "weapon": "Bow", "wtype": "Ranged",
+      "specials": ["Novice", "Light Armour"],
+      "abilities": []
+    },
+    {
+      "id": "sellsword", "faction": "unaffiliated",
+      "name": "Mercenary Sellsword", "role": "Melee",
+      "mp": 8, "pr": 3, "mov": 4, "dmg": 2,
+      "weapon": "Normal Weapon", "wtype": "Melee",
+      "specials": ["Experienced", "Partial Armour"],
+      "abilities": []
+    },
+    {
+      "id": "merc_archer", "faction": "unaffiliated",
+      "name": "Mercenary Heavy Archer", "role": "Ranged",
+      "mp": 7, "pr": 3, "mov": 4, "dmg": 3,
+      "weapon": "Heavy Bow", "wtype": "Ranged",
+      "specials": ["Experienced", "Partial Armour"],
+      "abilities": []
+    },
+    {
+      "id": "wolfpack", "faction": "unaffiliated",
+      "name": "Wolfpack Bandit", "role": "Light Melee",
+      "mp": 6, "pr": 4, "mov": 4, "dmg": 2,
+      "weapon": "Normal Weapon", "wtype": "Melee",
+      "specials": ["Novice", "Light Armour"],
+      "abilities": []
+    },
+
+
+    {
+      "id": "court_wizard", "faction": "falcon",
+      "name": "Court Wizard", "role": "Spellcaster",
+      "mp": 7, "pr": 3, "mov": 3, "dmg": 1,
+      "weapon": "Staff", "wtype": "Melee",
+      "specials": ["Experienced", "Unarmoured"],
+      "isWizard": true,
+      "abilities": [
+        { "name": "Spellcaster", "desc": "May cast spells. Die size for casting is based on Current Poise. Each wizard has 3 spell slots." }
+      ]
+    },
+    {
+      "id": "necromancer", "faction": "monster",
+      "name": "Necromancer", "role": "Spellcaster / Undead",
+      "mp": 8, "pr": 2, "mov": 3, "dmg": 1,
+      "weapon": "Bone Staff", "wtype": "Melee",
+      "specials": ["Veteran", "Unarmoured", "Undead"],
+      "isWizard": true,
+      "abilities": [
+        { "name": "Undead",      "desc": "Does not regenerate Poise when Hit." },
+        { "name": "Spellcaster", "desc": "May cast spells. Die size for casting is based on Current Poise. Each wizard has 3 spell slots." }
+      ]
+    },
+    {
+      "id": "hedge_mage", "faction": "unaffiliated",
+      "name": "Hedge Mage", "role": "Spellcaster",
+      "mp": 6, "pr": 3, "mov": 4, "dmg": 1,
+      "weapon": "Dagger", "wtype": "Melee",
+      "specials": ["Novice", "Unarmoured"],
+      "isWizard": true,
+      "abilities": [
+        { "name": "Spellcaster", "desc": "May cast spells. Die size for casting is based on Current Poise. Each wizard has 3 spell slots." }
+      ]
+    }
+  ],
+
+  "spells": [
+    { "id": "fog",    "name": "Fog",    "school": "Control",    "target": 4, "effect": "Place a 4-unit fog zone. Blocks line of sight. Lasts until wizard acts again." },
+    { "id": "bind",   "name": "Bind",   "school": "Control",    "target": 7, "effect": "Target cannot move, attack, or be attacked until their next turn. Units in melee with them may leave freely." },
+    { "id": "push",   "name": "Push",   "school": "Control",    "target": 5, "effect": "Knock a target 2 units in any direction. If they hit terrain or a unit they take a Poise Shred." },
+    { "id": "swap",   "name": "Swap",   "school": "Control",    "target": 6, "effect": "Two units within range swap positions instantly." },
+    { "id": "expose", "name": "Expose", "school": "Disruption", "target": 4, "effect": "Target's Current Poise counts as half for being hit this turn." },
+    { "id": "rust",   "name": "Rust",   "school": "Disruption", "target": 4, "effect": "Target's weapon damage is reduced by 1 until the start of their next turn." },
+    { "id": "rally",  "name": "Rally",  "school": "Support",    "target": 3, "effect": "One ally recovers Poise equal to the wizard's Poise Recovery." },
+    { "id": "ward",   "name": "Ward",   "school": "Support",    "target": 3, "effect": "One ally cannot be targeted by ranged attacks until they move or attack." },
+    { "id": "haste",  "name": "Haste",  "school": "Support",    "target": 5, "effect": "One ally may move again after attacking this turn." }
+  ]
+}
