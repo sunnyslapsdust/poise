@@ -27,6 +27,31 @@ export function calcBlockStats(blocks) {
   }
 }
 
+// Sum stat modifiers contributed by trait abilities
+export function calcTraitModifiers(abilities = []) {
+  const mods = { mp: 0, pr: 0, mov: 0, dmg: 0 }
+  for (const ab of abilities) {
+    if (!ab.traitId) continue
+    const trait = TRAITS[ab.traitId]
+    if (!trait) continue
+    for (const key of Object.keys(mods)) mods[key] += trait[key] ?? 0
+  }
+  return mods
+}
+
+// Full stat calculation: building blocks + trait modifiers
+export function calcUnitStats(blocks, abilities = []) {
+  const base = calcBlockStats(blocks)
+  const mods = calcTraitModifiers(abilities)
+  return {
+    ...base,
+    mp:  Math.max(1, base.mp  + mods.mp),
+    pr:  Math.max(0, base.pr  + mods.pr),
+    mov: Math.max(1, base.mov + mods.mov),
+    dmg: Math.max(0, base.dmg + mods.dmg),
+  }
+}
+
 // Resolve an ability entry — traitId reference or inline { name, desc }
 export function resolveAbility(entry) {
   if (entry.traitId) return TRAITS[entry.traitId] ?? { name: entry.traitId, desc: '(unknown trait)' }

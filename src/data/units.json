@@ -14,280 +14,249 @@
     {
       "id": "paragon", "faction": "falcon",
       "name": "Falcon Paragon", "role": "Elite Melee",
-      "mp": 12, "pr": 2, "mov": 3, "dmg": 3,
-      "weapon": "Heavy Weapon", "wtype": "Melee",
-      "specials": ["Veteran", "Heavy Armour"],
-      "abilities": []
+      "specials": [],
+      "abilities": [],
+      "_blocks": { "experience": "veteran", "armour": "heavy_armour", "weapon": "heavy_weapon", "spellSlots": "none" }
     },
     {
       "id": "grandmaster", "faction": "falcon",
       "name": "Falcon Grandmaster", "role": "Hero",
-      "mp": 13, "pr": 2, "mov": 2, "dmg": 2,
-      "weapon": "Normal Weapon", "wtype": "Melee",
-      "specials": ["Master", "Full Armour", "Perfect Poise", "Ranged Parry", "Old"],
+      "specials": ["Perfect Poise", "Ranged Parry", "Old"],
       "abilities": [
         { "traitId": "perfect_poise" },
         { "traitId": "ranged_parry" },
         { "traitId": "old" }
-      ]
+      ],
+      "_blocks": { "experience": "master", "armour": "partial_armour", "weapon": "normal_weapon", "spellSlots": "none" }
     },
     {
       "id": "vanguard", "faction": "falcon",
       "name": "Falcon Vanguard", "role": "Heavy Melee",
-      "mp": 8, "pr": 2, "mov": 4, "dmg": 3,
-      "weapon": "Heavy Weapon", "wtype": "Melee",
-      "specials": ["Experienced", "Full Armour"],
-      "abilities": []
+      "specials": [],
+      "abilities": [],
+      "_blocks": { "experience": "experienced", "armour": "full_armour", "weapon": "heavy_weapon", "spellSlots": "none" }
     },
     {
       "id": "militia", "faction": "falcon",
       "name": "Falcon Militia", "role": "Light Melee",
-      "mp": 6, "pr": 4, "mov": 4, "dmg": 2,
-      "weapon": "Normal Weapon", "wtype": "Melee",
-      "specials": ["Novice", "Light Armour"],
-      "abilities": []
+      "specials": [],
+      "abilities": [],
+      "_blocks": { "experience": "novice", "armour": "light_armour", "weapon": "normal_weapon", "spellSlots": "none" }
     },
 
 
     {
       "id": "captain", "faction": "lion",
       "name": "Lion Captain", "role": "Commander",
-      "mp": 9, "pr": 3, "mov": 4, "dmg": 2,
-      "weapon": "Normal Weapon", "wtype": "Melee",
-      "specials": ["Veteran", "Partial Armour"],
-      "abilities": []
+      "specials": [],
+      "abilities": [],
+      "_blocks": { "experience": "veteran", "armour": "partial_armour", "weapon": "normal_weapon", "spellSlots": "none" }
     },
     {
       "id": "footman", "faction": "lion",
       "name": "Lion Footman", "role": "Line Infantry",
-      "mp": 6, "pr": 3, "mov": 4, "dmg": 2,
-      "weapon": "Normal Weapon", "wtype": "Melee",
-      "specials": ["Greenhorn", "Partial Armour"],
-      "abilities": []
+      "specials": [],
+      "abilities": [],
+      "_blocks": { "experience": "greenhorn", "armour": "partial_armour", "weapon": "normal_weapon", "spellSlots": "none" }
     },
     {
       "id": "guard", "faction": "lion",
       "name": "Town Guard", "role": "Line Infantry",
-      "mp": 5, "pr": 4, "mov": 4, "dmg": 2,
-      "weapon": "Normal Weapon", "wtype": "Melee",
-      "specials": ["Greenhorn", "Light Armour"],
-      "abilities": []
+      "specials": [],
+      "abilities": [],
+      "_blocks": { "experience": "greenhorn", "armour": "light_armour", "weapon": "normal_weapon", "spellSlots": "none" }
     },
     {
       "id": "crossbow", "faction": "lion",
       "name": "Lion Crossbowman", "role": "Ranged",
-      "mp": 5, "pr": 4, "mov": 4, "dmg": 3,
-      "weapon": "Heavy Crossbow", "wtype": "Ranged",
-      "specials": ["Novice", "Light Armour"],
-      "abilities": []
+      "specials": [],
+      "abilities": [],
+      "_blocks": { "experience": "novice", "armour": "light_armour", "weapon": "heavy_crossbow", "spellSlots": "none" }
     },
     {
       "id": "lion_heavy_archer", "faction": "lion",
       "name": "Lion Heavy Archer", "role": "Heavy Ranged",
-      "mp": 6, "pr": 3, "mov": 4, "dmg": 3,
-      "weapon": "Heavy Bow", "wtype": "Ranged",
-      "specials": ["Experienced", "Partial Armour"],
-      "abilities": []
+      "specials": [],
+      "abilities": [],
+      "_blocks": { "experience": "experienced", "armour": "partial_armour", "weapon": "heavy_bow", "spellSlots": "none" }
     },
 
 
     {
       "id": "forestmen_leader", "faction": "forestmen",
       "name": "Forestmen Leader", "role": "Commander",
-      "mp": 8, "pr": 3, "mov": 4, "dmg": 2,
-      "weapon": "Normal Weapon", "wtype": "Melee",
-      "specials": ["Experienced", "Partial Armour"],
-      "abilities": []
+      "specials": [],
+      "abilities": [],
+      "_blocks": { "experience": "experienced", "armour": "partial_armour", "weapon": "normal_weapon", "spellSlots": "none" }
     },
     {
       "id": "forestmen_archer", "faction": "forestmen",
       "name": "Forestmen Archer", "role": "Ranged Skirmisher",
-      "mp": 6, "pr": 4, "mov": 4, "dmg": 2,
-      "weapon": "Bow", "wtype": "Ranged",
-      "specials": ["Novice", "Light Armour"],
-      "abilities": []
+      "specials": [],
+      "abilities": [],
+      "_blocks": { "experience": "novice", "armour": "light_armour", "weapon": "bow", "spellSlots": "none" }
     },
 
     {
       "id": "berserker", "faction": "viking",
       "name": "Viking Berserker", "role": "Heavy Melee",
-      "mp": 7, "pr": 4, "mov": 4, "dmg": 3,
-      "weapon": "Heavy Weapon", "wtype": "Melee",
-      "specials": ["Experienced", "Light Armour", "Hardy"],
+      "specials": ["Hardy"],
       "abilities": [
         { "traitId": "hardy" }
-      ]
+      ],
+      "_blocks": { "experience": "experienced", "armour": "light_armour", "weapon": "heavy_weapon", "spellSlots": "none" }
     },
     {
       "id": "huscarl", "faction": "viking",
       "name": "Viking Huscarl", "role": "Melee",
-      "mp": 6, "pr": 4, "mov": 4, "dmg": 3,
-      "weapon": "Heavy Weapon", "wtype": "Melee",
-      "specials": ["Experienced", "Light Armour", "Hardy"],
+      "specials": ["Hardy"],
       "abilities": [
         { "traitId": "hardy" }
-      ]
+      ],
+      "_blocks": { "experience": "experienced", "armour": "light_armour", "weapon": "heavy_weapon", "spellSlots": "none" }
     },
 
 
     {
       "id": "vampire", "faction": "monster",
       "name": "Vampire", "role": "Hero / Undead",
-      "mp": 9, "pr": 0, "mov": 4, "dmg": 2,
-      "weapon": "Normal Weapon", "wtype": "Melee",
-      "specials": ["Master", "Undead", "Perfect Poise"],
+      "specials": ["Undead", "Perfect Poise"],
       "abilities": [
         { "traitId": "undead" },
         { "traitId": "perfect_poise" }
-      ]
+      ],
+      "_blocks": { "experience": "master", "armour": "unarmoured", "weapon": "normal_weapon", "spellSlots": "none" }
     },
     {
       "id": "skeleton", "faction": "monster",
       "name": "Skeleton", "role": "Undead",
-      "mp": 5, "pr": 0, "mov": 4, "dmg": 2,
-      "weapon": "Normal Weapon", "wtype": "Melee",
-      "specials": ["Novice", "Undead"],
+      "specials": ["Undead"],
       "abilities": [
         { "traitId": "undead" }
-      ]
+      ],
+      "_blocks": { "experience": "novice", "armour": "unarmoured", "weapon": "normal_weapon", "spellSlots": "none" }
     },
     {
       "id": "skeleton_champion", "faction": "monster",
       "name": "Skeletal Champion", "role": "Champion / Undead",
-      "mp": 9, "pr": 0, "mov": 4, "dmg": 3,
-      "weapon": "Heavy Weapon", "wtype": "Melee",
-      "specials": ["Veteran", "Heavy Armour", "Undead"],
+      "specials": ["Undead"],
       "abilities": [
         { "traitId": "undead" }
-      ]
+      ],
+      "_blocks": { "experience": "veteran", "armour": "heavy_armour", "weapon": "heavy_weapon", "spellSlots": "none" }
     },
     {
       "id": "harpy", "faction": "monster",
       "name": "Harpy", "role": "Flying Skirmisher",
-      "mp": 7, "pr": 4, "mov": 4, "dmg": 2,
-      "weapon": "Claws", "wtype": "Melee",
-      "specials": ["Experienced", "Flight"],
+      "weapon": "Claws",
+      "specials": ["Flight"],
       "abilities": [
         { "traitId": "flight" }
-      ]
+      ],
+      "_blocks": { "experience": "experienced", "armour": "unarmoured", "weapon": "normal_weapon", "spellSlots": "none" }
     },
 
     {
       "id": "rabble", "faction": "unaffiliated",
       "name": "Peasant Rabble", "role": "Mob",
-      "mp": 4, "pr": 4, "mov": 4, "dmg": 1,
-      "weapon": "Improvised Weapon", "wtype": "Melee",
-      "specials": ["Greenhorn"],
-      "abilities": []
+      "specials": [],
+      "abilities": [],
+      "_blocks": { "experience": "greenhorn", "armour": "unarmoured", "weapon": "improvised", "spellSlots": "none" }
     },
     {
       "id": "outlaw", "faction": "unaffiliated",
       "name": "Outlaw", "role": "Light Melee",
-      "mp": 5, "pr": 4, "mov": 4, "dmg": 1,
-      "weapon": "Light Weapon", "wtype": "Melee",
-      "specials": ["Greenhorn"],
-      "abilities": []
+      "specials": [],
+      "abilities": [],
+      "_blocks": { "experience": "greenhorn", "armour": "unarmoured", "weapon": "light_weapon", "spellSlots": "none" }
     },
     {
       "id": "hunter", "faction": "unaffiliated",
       "name": "Hunter", "role": "Ranged Skirmisher",
-      "mp": 6, "pr": 4, "mov": 4, "dmg": 2,
-      "weapon": "Bow", "wtype": "Ranged",
-      "specials": ["Novice", "Light Armour"],
-      "abilities": []
+      "specials": [],
+      "abilities": [],
+      "_blocks": { "experience": "novice", "armour": "light_armour", "weapon": "bow", "spellSlots": "none" }
     },
     {
       "id": "sellsword_merc", "faction": "unaffiliated",
       "name": "Mercenary Sellsword", "role": "Melee",
-      "mp": 8, "pr": 3, "mov": 4, "dmg": 2,
-      "weapon": "Normal Weapon", "wtype": "Melee",
-      "specials": ["Experienced", "Partial Armour"],
-      "abilities": []
+      "specials": [],
+      "abilities": [],
+      "_blocks": { "experience": "experienced", "armour": "partial_armour", "weapon": "normal_weapon", "spellSlots": "none" }
     },
     {
       "id": "merc_archer", "faction": "unaffiliated",
       "name": "Mercenary Heavy Archer", "role": "Ranged",
-      "mp": 7, "pr": 3, "mov": 4, "dmg": 3,
-      "weapon": "Heavy Bow", "wtype": "Ranged",
-      "specials": ["Experienced", "Partial Armour"],
-      "abilities": []
+      "specials": [],
+      "abilities": [],
+      "_blocks": { "experience": "experienced", "armour": "partial_armour", "weapon": "heavy_bow", "spellSlots": "none" }
     },
     {
       "id": "bandit", "faction": "unaffiliated",
       "name": "Bandit", "role": "Light Melee",
-      "mp": 6, "pr": 4, "mov": 4, "dmg": 2,
-      "weapon": "Normal Weapon", "wtype": "Melee",
-      "specials": ["Novice", "Light Armour"],
-      "abilities": []
+      "specials": [],
+      "abilities": [],
+      "_blocks": { "experience": "novice", "armour": "light_armour", "weapon": "normal_weapon", "spellSlots": "none" }
     },
 
 
     {
       "id": "court_wizard", "faction": "falcon",
       "name": "Court Wizard", "role": "Spellcaster",
-      "mp": 7, "pr": 3, "mov": 3, "dmg": 1,
-      "weapon": "Staff", "wtype": "Melee",
-      "specials": ["Experienced", "Unarmoured"],
-      "isWizard": true,
+      "weapon": "Staff",
+      "specials": [],
       "abilities": [
         { "traitId": "spellcaster" }
-      ]
+      ],
+      "_blocks": { "experience": "veteran", "armour": "heavy_armour", "weapon": "improvised", "spellSlots": "three" }
     },
     {
       "id": "necromancer", "faction": "monster",
       "name": "Necromancer", "role": "Spellcaster / Undead",
-      "mp": 8, "pr": 2, "mov": 3, "dmg": 1,
-      "weapon": "Bone Staff", "wtype": "Melee",
-      "specials": ["Veteran", "Unarmoured", "Undead"],
-      "isWizard": true,
+      "weapon": "Bone Staff",
+      "specials": ["Undead"],
       "abilities": [
         { "traitId": "undead" },
         { "traitId": "spellcaster" }
-      ]
+      ],
+      "_blocks": { "experience": "veteran", "armour": "full_armour", "weapon": "light_weapon", "spellSlots": "three" }
     },
     {
       "id": "bondsman", "faction": "merchant",
       "name": "Bondsman", "role": "Heavy Infantry",
-      "mp": 9, "pr": 1, "mov": 3, "dmg": 2,
-      "weapon": "Normal Weapon", "wtype": "Melee",
-      "specials": ["Greenhorn", "Heavy Armour"],
-      "abilities": []
+      "specials": [],
+      "abilities": [],
+      "_blocks": { "experience": "greenhorn", "armour": "full_armour", "weapon": "normal_weapon", "spellSlots": "none" }
     },
     {
       "id": "spellsword", "faction": "merchant",
       "name": "Spellsword", "role": "Melee / Spellcaster",
-      "mp": 8, "pr": 3, "mov": 4, "dmg": 2,
-      "weapon": "Normal Weapon", "wtype": "Melee",
-      "specials": ["Experienced", "Partial Armour"],
-      "isWizard": true,
-      "spellSlots": 1,
-      "spellSchools": ["Control", "Disruption"],
+      "specials": [],
       "abilities": [
-        { "traitId": "novice_spellcaster" }
-      ]
+        { "traitId": "spellcaster" }
+      ],
+      "_blocks": { "experience": "experienced", "armour": "partial_armour", "weapon": "normal_weapon", "spellSlots": "one" }
     },
     {
       "id": "guild_assassin", "faction": "merchant", "attackCost": 4,
       "name": "Guild Assassin", "role": "Precision Striker",
-      "mp": 7, "pr": 4, "mov": 5, "dmg": 2,
-      "weapon": "Normal Weapon", "wtype": "Melee",
-      "specials": ["Experienced", "Light Armour", "Guild Training"],
+      "specials": ["Guild Training"],
       "abilities": [
         { "traitId": "guild_training" },
         { "traitId": "assassination" }
-      ]
+      ],
+      "_blocks": { "experience": "experienced", "armour": "light_armour", "weapon": "normal_weapon", "spellSlots": "none" }
     },
 
     {
       "id": "hedge_mage", "faction": "unaffiliated",
       "name": "Hedge Mage", "role": "Spellcaster",
-      "mp": 6, "pr": 3, "mov": 4, "dmg": 1,
-      "weapon": "Dagger", "wtype": "Melee",
-      "specials": ["Novice", "Unarmoured"],
-      "isWizard": true,
+      "weapon": "Dagger",
+      "specials": [],
       "abilities": [
         { "traitId": "spellcaster" }
-      ]
+      ],
+      "_blocks": { "experience": "veteran", "armour": "partial_armour", "weapon": "improvised", "spellSlots": "two" }
     }
   ],
 
@@ -301,11 +270,11 @@
       { "id": "master",      "label": "Master",      "mp": 4 }
     ],
     "armour": [
-      { "id": "unarmoured",     "label": "Unarmoured",    "pr": 1 },
+      { "id": "unarmoured",     "label": "Unarmoured" },
       { "id": "light_armour",   "label": "Light Armour",  "mp": 1 },
       { "id": "partial_armour", "label": "Partial Armour","mp": 2, "pr": -1 },
-      { "id": "full_armour",    "label": "Full Armour",   "mp": 3, "pr": -1, "mov": -1 },
-      { "id": "heavy_armour",   "label": "Heavy Armour",  "mp": 5, "pr": -1, "mov": -1 }
+      { "id": "full_armour",    "label": "Full Armour",   "mp": 3, "pr": -2, "mov": -1 },
+      { "id": "heavy_armour",   "label": "Heavy Armour",  "mp": 5, "pr": -2, "mov": -2 }
     ],
     "weapon": [
       { "id": "improvised",     "label": "Improvised",     "name": "Improvised Weapon", "wtype": "Melee" },
@@ -326,17 +295,16 @@
   },
 
   "traits": {
-    "undead":         { "name": "Undead",         "desc": "Does not regenerate Poise." },
+    "undead":         { "name": "Undead",         "desc": "Does not regenerate Poise.", "pr": -4 },
     "perfect_poise":  { "name": "Perfect Poise",  "desc": "Recover 1 Current Poise after every action if not Hit." },
-    "hardy":          { "name": "Hardy",          "desc": "+1 Max Poise from tough constitution." },
+    "hardy":          { "name": "Hardy",          "desc": "+1 Max Poise from tough constitution.", "mp": 1 },
     "flight":         { "name": "Flight",         "desc": "May move to any elevation within 4 units. Disengage from melee freely for 2 Current Poise." },
     "spellcaster":    { "name": "Spellcaster",    "desc": "May cast spells. Die size for casting is based on Current Poise." },
     "ranged_parry":   { "name": "Ranged Parry",   "desc": "Once per turn, deflect a successful ranged attack for free." },
-    "old":            { "name": "Old",            "desc": "+2 Max Poise. Moves at half speed." },
-    "guild_training": { "name": "Guild Training", "desc": "+1 Movement and +1 Max Poise from professional guild training." },
-    "assassination":  { "name": "Assassination",  "desc": "Attack costs 4 Current Poise instead of 2. Damage is doubled against Max Poise hits." },
-    "novice_spellcaster":    { "name": "Novice Spellcaster",    "desc": "May cast spells. Die size for casting is based on Current Poise. Has 1 spell slots." }
-  
+    "old":            { "name": "Old",            "desc": "+2 Max Poise. Moves at half speed.", "mp": 2, "mov": -2 },
+    "guild_training": { "name": "Guild Training", "desc": "+1 Movement and +1 Max Poise from professional guild training.", "mp": 1, "mov": 1 },
+    "assassination":  { "name": "Assassination",  "desc": "Attack costs 4 Current Poise instead of 2. Damage is doubled against Max Poise hits." }
+
   },
 
   "spells": [

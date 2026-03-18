@@ -1,7 +1,7 @@
 // src/stores/creator.js
 import { defineStore } from 'pinia'
 import { ref, computed, watch } from 'vue'
-import { UNITS, FACTIONS, calcBlockStats } from '../data/units'
+import { UNITS, FACTIONS, BUILD_RULES, calcUnitStats } from '../data/units'
 
 const LS_CUSTOM = 'poise-custom-units'
 const LS_EDITS  = 'poise-unit-edits'
@@ -14,10 +14,34 @@ export const useCreatorStore = defineStore('creator', () => {
   watch(customUnits, v => localStorage.setItem(LS_CUSTOM, JSON.stringify(v)), { deep: true })
   watch(unitEdits,   v => localStorage.setItem(LS_EDITS,  JSON.stringify(v)), { deep: true })
 
+  // Apply block-derived stats to any unit that has _blocks
+  function applyBlockStats(u) {
+    if (!u._blocks) return u
+    const stats   = calcUnitStats(u._blocks, u.abilities ?? [])
+    const expLabel = BUILD_RULES.experience.find(e => e.id === u._blocks.experience)?.label
+    const armEntry = BUILD_RULES.armour.find(a => a.id === u._blocks.armour)
+    const autoTags = [expLabel].filter(Boolean)
+    if (armEntry && armEntry.id !== 'unarmoured') autoTags.push(armEntry.label)
+    if (stats.isWizard) autoTags.push('Spellcaster')
+    return {
+      ...u,
+      mp:         stats.mp,
+      pr:         stats.pr,
+      mov:        stats.mov,
+      dmg:        stats.dmg,
+      weapon:     u.weapon ?? stats.weapon,   // custom name wins; fall back to block name
+      wtype:      stats.wtype,
+      isWizard:   stats.isWizard,
+      spellSlots: stats.spellSlots,
+      specials:   [...autoTags, ...(u.specials ?? [])],
+    }
+  }
+
   // Merged list: base units with any edits applied, then custom units
+  // Stats for block-based units are always derived live from their _blocks
   const allUnits = computed(() => [
-    ...UNITS.map(u => ({ ...u, ...(unitEdits.value[u.id] || {}) })),
-    ...customUnits.value,
+    ...UNITS.map(u => applyBlockStats({ ...u, ...(unitEdits.value[u.id] || {}) })),
+    ...customUnits.value.map(applyBlockStats),
   ])
 
   function isBaseUnit(id)  { return UNITS.some(u => u.id === id) }
@@ -66,14 +90,14 @@ export const useCreatorStore = defineStore('creator', () => {
 
   function newUnit() {
     const blocks = { experience: 'greenhorn', armour: 'unarmoured', weapon: 'normal_weapon', spellSlots: 'none' }
-    const stats  = calcBlockStats(blocks)
+    const stats  = calcUnitStats(blocks)
     return {
       id: 'custom-' + Date.now(),
       faction: Object.keys(FACTIONS)[0],
       name: 'New Unit',
       role: 'Unit',
       ...stats,
-      specials: ['Greenhorn', 'Unarmoured'],
+      specials: [],
       abilities: [],
       _blocks: blocks,
     }

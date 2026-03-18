@@ -163,10 +163,15 @@
         </template>
       </div>
 
-      <!-- Tags / Specials (building blocks auto-populate experience & armour tags) -->
+      <!-- Tags / Specials -->
       <div class="section">
         <div class="section-title">Tags</div>
         <div class="chip-list">
+          <!-- Auto-derived from _blocks (read-only) -->
+          <div v-for="tag in derivedTags" :key="'auto-' + tag" class="chip chip-auto">
+            <span>{{ tag }}</span>
+          </div>
+          <!-- User-defined extras (editable) -->
           <div v-for="(tag, i) in draft.specials" :key="i" class="chip">
             <span>{{ tag }}</span>
             <button class="chip-rm" @click="draft.specials.splice(i, 1)">×</button>
@@ -212,7 +217,7 @@
               class="trait-chip"
               :class="{ 'trait-added': draft.abilities.some(a => a.traitId === tid) }"
               @click="addTrait(tid)"
-            >{{ trait.name }}</button>
+            >{{ trait.name }}{{ traitModLabel(tid) }}</button>
           </div>
         </div>
 
@@ -249,9 +254,9 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { useCreatorStore } from '../stores/creator'
-import { FACTIONS, BUILD_RULES, calcBlockStats, TRAITS, resolveAbility } from '../data/units'
+import { FACTIONS, BUILD_RULES, calcUnitStats, TRAITS, resolveAbility } from '../data/units'
 
 const creator = useCreatorStore()
 
@@ -271,28 +276,50 @@ const BUILD_CATS = [
   { key: 'spellSlots', label: 'Spell Slots', options: BUILD_RULES.spellSlots },
 ]
 
-function selectBlock(catKey, optId) {
+function recalcDraftStats() {
   if (!draft.value?._blocks) return
-  draft.value._blocks[catKey] = optId
-  const stats = calcBlockStats(draft.value._blocks)
+  const stats = calcUnitStats(draft.value._blocks, draft.value.abilities ?? [])
   draft.value.mp         = stats.mp
   draft.value.pr         = stats.pr
   draft.value.mov        = stats.mov
   draft.value.dmg        = stats.dmg
-  draft.value.weapon     = stats.weapon
   draft.value.wtype      = stats.wtype
   draft.value.isWizard   = stats.isWizard
   draft.value.spellSlots = stats.spellSlots
-  // Sync experience, armour and spellcaster tag into specials
+  // weapon display name is NOT reset here — only when the weapon block itself changes
+}
+
+// Tags derived from _blocks (shown read-only in the editor)
+const derivedTags = computed(() => {
+  if (!draft.value?._blocks) return []
   const exp = BUILD_RULES.experience.find(e => e.id === draft.value._blocks.experience)
   const arm = BUILD_RULES.armour.find(a => a.id === draft.value._blocks.armour)
-  const blockLabels = [exp?.label, arm?.label].filter(Boolean)
-  if (stats.isWizard) blockLabels.push('Spellcaster')
-  const prevBlockLabels = BUILD_RULES.experience.map(e => e.label)
-    .concat(BUILD_RULES.armour.map(a => a.label))
-    .concat(['Spellcaster'])
-  const userSpecials = (draft.value.specials ?? []).filter(s => !prevBlockLabels.includes(s))
-  draft.value.specials = [...blockLabels, ...userSpecials]
+  const tags = [exp?.label].filter(Boolean)
+  if (arm && arm.id !== 'unarmoured') tags.push(arm.label)
+  if (draft.value.isWizard) tags.push('Spellcaster')
+  return tags
+})
+
+function selectBlock(catKey, optId) {
+  if (!draft.value?._blocks) return
+  draft.value._blocks[catKey] = optId
+  recalcDraftStats()
+  // Update weapon display name only when the weapon block changes
+  if (catKey === 'weapon') {
+    const wpn = BUILD_RULES.weapon.find(w => w.id === optId)
+    if (wpn) draft.value.weapon = wpn.name ?? 'Normal Weapon'
+  }
+}
+
+function traitModLabel(tid) {
+  const t = TRAITS[tid]
+  if (!t) return ''
+  const parts = []
+  if (t.mp)  parts.push(`${t.mp > 0 ? '+' : ''}${t.mp} MP`)
+  if (t.pr)  parts.push(`${t.pr > 0 ? '+' : ''}${t.pr} PR`)
+  if (t.mov) parts.push(`${t.mov > 0 ? '+' : ''}${t.mov} MOV`)
+  if (t.dmg) parts.push(`${t.dmg > 0 ? '+' : ''}${t.dmg} DMG`)
+  return parts.length ? ` (${parts.join(' ')})` : ''
 }
 
 // ── List view ─────────────────────────────────────────────────────────────
@@ -330,13 +357,33 @@ function handleCopy() {
 
 // ── Editor view ───────────────────────────────────────────────────────────
 const draft     = ref(null)
+
+// Re-run stats whenever abilities change (trait add/remove)
+// Must be declared after `draft` to avoid temporal dead zone crash
+watch(
+  () => draft.value?.abilities,
+  () => recalcDraftStats(),
+  { deep: true }
+)
+
 const editorTab = ref('form')
 const jsonText  = ref('')
 const jsonError = ref('')
 const newTag    = ref('')
 
+// Labels that applyBlockStats auto-derives — strip them from specials before editing
+const ALL_BLOCK_LABELS = new Set([
+  ...BUILD_RULES.experience.map(e => e.label),
+  ...BUILD_RULES.armour.map(a => a.label),
+  'Spellcaster',
+])
+
 function startEdit(unit) {
-  draft.value     = JSON.parse(JSON.stringify(unit))
+  const copy = JSON.parse(JSON.stringify(unit))
+  if (copy._blocks) {
+    copy.specials = (copy.specials ?? []).filter(s => !ALL_BLOCK_LABELS.has(s))
+  }
+  draft.value     = copy
   editorTab.value = 'form'
   jsonError.value = ''
 }
@@ -560,6 +607,7 @@ function handleDelete() {
   background: rgba(255,255,255,.05); border: 1px solid var(--border);
   border-radius: 4px; padding: 3px 6px 3px 8px; font-size: 11px; color: var(--muted);
 }
+.chip-auto { color: var(--dim); border-color: transparent; background: transparent; }
 .chip-rm {
   background: transparent; border: none; color: var(--dim);
   font-size: 14px; line-height: 1; padding: 0 2px; cursor: pointer;
