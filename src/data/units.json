@@ -1,11 +1,12 @@
 {
   "factions": {
-    "falcon":       { "id": "falcon",       "label": "Black Falcons", "color": "#60a5fa" },
-    "lion":         { "id": "lion",         "label": "Lion Knights",  "color": "#fbbf24" },
+    "falcon":       { "id": "falcon",       "label": "The Order of the Black Falcons", "color": "#60a5fa" },
+    "lion":         { "id": "lion",         "label": "The Lion Kingdom",  "color": "#fbbf24" },
     "monster":      { "id": "monster",      "label": "Monsters",      "color": "#c084fc" },
     "unaffiliated": { "id": "unaffiliated", "label": "Unaffiliated",  "color": "#766352" },
     "forestmen":    { "id": "forestmen",    "label": "Forestmen",     "color": "#4ade80" },
-    "viking":       { "id": "viking",       "label": "Vikings",       "color": "#fb923c" }
+    "viking":       { "id": "viking",       "label": "Vikings",       "color": "#fb923c" },
+    "merchant":     { "id": "merchant",     "label": "Merchant Houses", "color": "#b45309" }
   },
   "units": [
 
@@ -25,9 +26,9 @@
       "weapon": "Normal Weapon", "wtype": "Melee",
       "specials": ["Master", "Full Armour", "Perfect Poise", "Ranged Parry", "Old"],
       "abilities": [
-        { "name": "Perfect Poise",  "desc": "Recover 1 Current Poise after every action if not Hit." },
-        { "name": "Ranged Parry",   "desc": "Once per turn, deflect a successful ranged attack for free." },
-        { "name": "Old",            "desc": "+2 Max Poise. Moves at half speed." }
+        { "traitId": "perfect_poise" },
+        { "traitId": "ranged_parry" },
+        { "traitId": "old" }
       ]
     },
     {
@@ -114,7 +115,7 @@
       "weapon": "Heavy Weapon", "wtype": "Melee",
       "specials": ["Experienced", "Light Armour", "Hardy"],
       "abilities": [
-        { "name": "Hardy", "desc": "+1 Max Poise from tough constitution." }
+        { "traitId": "hardy" }
       ]
     },
     {
@@ -124,7 +125,7 @@
       "weapon": "Heavy Weapon", "wtype": "Melee",
       "specials": ["Experienced", "Light Armour", "Hardy"],
       "abilities": [
-        { "name": "Hardy", "desc": "+1 Max Poise from tough constitution." }
+        { "traitId": "hardy" }
       ]
     },
 
@@ -136,8 +137,8 @@
       "weapon": "Normal Weapon", "wtype": "Melee",
       "specials": ["Master", "Undead", "Perfect Poise"],
       "abilities": [
-        { "name": "Undead",        "desc": "Does not regenerate Poise when Hit." },
-        { "name": "Perfect Poise", "desc": "Recover 1 Current Poise after every action if not Hit." }
+        { "traitId": "undead" },
+        { "traitId": "perfect_poise" }
       ]
     },
     {
@@ -147,7 +148,7 @@
       "weapon": "Normal Weapon", "wtype": "Melee",
       "specials": ["Novice", "Undead"],
       "abilities": [
-        { "name": "Undead", "desc": "Does not regenerate Poise when Hit." }
+        { "traitId": "undead" }
       ]
     },
     {
@@ -157,7 +158,7 @@
       "weapon": "Heavy Weapon", "wtype": "Melee",
       "specials": ["Veteran", "Heavy Armour", "Undead"],
       "abilities": [
-        { "name": "Undead", "desc": "Does not regenerate Poise when Hit." }
+        { "traitId": "undead" }
       ]
     },
     {
@@ -167,7 +168,7 @@
       "weapon": "Claws", "wtype": "Melee",
       "specials": ["Experienced", "Flight"],
       "abilities": [
-        { "name": "Flight", "desc": "May move to any elevation within 4 units. Disengage from melee freely for 2 Current Poise." }
+        { "traitId": "flight" }
       ]
     },
 
@@ -196,7 +197,7 @@
       "abilities": []
     },
     {
-      "id": "sellsword", "faction": "unaffiliated",
+      "id": "sellsword_merc", "faction": "unaffiliated",
       "name": "Mercenary Sellsword", "role": "Melee",
       "mp": 8, "pr": 3, "mov": 4, "dmg": 2,
       "weapon": "Normal Weapon", "wtype": "Melee",
@@ -212,8 +213,8 @@
       "abilities": []
     },
     {
-      "id": "wolfpack", "faction": "unaffiliated",
-      "name": "Wolfpack Bandit", "role": "Light Melee",
+      "id": "bandit", "faction": "unaffiliated",
+      "name": "Bandit", "role": "Light Melee",
       "mp": 6, "pr": 4, "mov": 4, "dmg": 2,
       "weapon": "Normal Weapon", "wtype": "Melee",
       "specials": ["Novice", "Light Armour"],
@@ -229,7 +230,7 @@
       "specials": ["Experienced", "Unarmoured"],
       "isWizard": true,
       "abilities": [
-        { "name": "Spellcaster", "desc": "May cast spells. Die size for casting is based on Current Poise. Each wizard has 3 spell slots." }
+        { "traitId": "spellcaster" }
       ]
     },
     {
@@ -240,10 +241,43 @@
       "specials": ["Veteran", "Unarmoured", "Undead"],
       "isWizard": true,
       "abilities": [
-        { "name": "Undead",      "desc": "Does not regenerate Poise when Hit." },
-        { "name": "Spellcaster", "desc": "May cast spells. Die size for casting is based on Current Poise. Each wizard has 3 spell slots." }
+        { "traitId": "undead" },
+        { "traitId": "spellcaster" }
       ]
     },
+    {
+      "id": "bondsman", "faction": "merchant",
+      "name": "Bondsman", "role": "Heavy Infantry",
+      "mp": 9, "pr": 1, "mov": 3, "dmg": 2,
+      "weapon": "Normal Weapon", "wtype": "Melee",
+      "specials": ["Greenhorn", "Heavy Armour"],
+      "abilities": []
+    },
+    {
+      "id": "spellsword", "faction": "merchant",
+      "name": "Spellsword", "role": "Melee / Spellcaster",
+      "mp": 8, "pr": 3, "mov": 4, "dmg": 2,
+      "weapon": "Normal Weapon", "wtype": "Melee",
+      "specials": ["Experienced", "Partial Armour"],
+      "isWizard": true,
+      "spellSlots": 1,
+      "spellSchools": ["Control", "Disruption"],
+      "abilities": [
+        { "traitId": "novice_spellcaster" }
+      ]
+    },
+    {
+      "id": "guild_assassin", "faction": "merchant", "attackCost": 4,
+      "name": "Guild Assassin", "role": "Precision Striker",
+      "mp": 7, "pr": 4, "mov": 5, "dmg": 2,
+      "weapon": "Normal Weapon", "wtype": "Melee",
+      "specials": ["Experienced", "Light Armour", "Guild Training"],
+      "abilities": [
+        { "traitId": "guild_training" },
+        { "traitId": "assassination" }
+      ]
+    },
+
     {
       "id": "hedge_mage", "faction": "unaffiliated",
       "name": "Hedge Mage", "role": "Spellcaster",
@@ -252,17 +286,65 @@
       "specials": ["Novice", "Unarmoured"],
       "isWizard": true,
       "abilities": [
-        { "name": "Spellcaster", "desc": "May cast spells. Die size for casting is based on Current Poise. Each wizard has 3 spell slots." }
+        { "traitId": "spellcaster" }
       ]
     }
   ],
 
+  "buildingBlocks": {
+    "base": { "mp": 4, "pr": 4, "mov": 4, "dmg": 1 },
+    "experience": [
+      { "id": "greenhorn",   "label": "Greenhorn"   },
+      { "id": "novice",      "label": "Novice",      "mp": 1 },
+      { "id": "experienced", "label": "Experienced", "mp": 2 },
+      { "id": "veteran",     "label": "Veteran",     "mp": 3},
+      { "id": "master",      "label": "Master",      "mp": 4 }
+    ],
+    "armour": [
+      { "id": "unarmoured",     "label": "Unarmoured",    "pr": 1 },
+      { "id": "light_armour",   "label": "Light Armour",  "mp": 1 },
+      { "id": "partial_armour", "label": "Partial Armour","mp": 2, "pr": -1 },
+      { "id": "full_armour",    "label": "Full Armour",   "mp": 3, "pr": -1, "mov": -1 },
+      { "id": "heavy_armour",   "label": "Heavy Armour",  "mp": 5, "pr": -1, "mov": -1 }
+    ],
+    "weapon": [
+      { "id": "improvised",     "label": "Improvised",     "name": "Improvised Weapon", "wtype": "Melee" },
+      { "id": "light_weapon",   "label": "Light",          "name": "Light Weapon",      "wtype": "Melee",   "mp": 1 },
+      { "id": "normal_weapon",  "label": "Normal",         "name": "Normal Weapon",     "wtype": "Melee",   "dmg": 1 },
+      { "id": "heavy_weapon",   "label": "Heavy",          "name": "Heavy Weapon",      "wtype": "Melee",   "dmg": 2, "mp": -1 },
+      { "id": "bow",            "label": "Bow",            "name": "Bow",               "wtype": "Ranged",  "dmg": 1 },
+      { "id": "heavy_bow",      "label": "Heavy Bow",      "name": "Heavy Bow",         "wtype": "Ranged",  "dmg": 2, "mp": -1 },
+      { "id": "crossbow",       "label": "Crossbow",       "name": "Crossbow",          "wtype": "Ranged",  "dmg": 1 },
+      { "id": "heavy_crossbow", "label": "Heavy Crossbow", "name": "Heavy Crossbow",    "wtype": "Ranged",  "dmg": 2 }
+    ],
+    "spellSlots": [
+      { "id": "none",  "label": "None", "slots": 0 },
+      { "id": "one",   "label": "1",    "slots": 1, "mp": -2 },
+      { "id": "two",   "label": "2",    "slots": 2, "mp": -3 },
+      { "id": "three", "label": "3",    "slots": 3, "mp": -4 }
+    ]
+  },
+
+  "traits": {
+    "undead":         { "name": "Undead",         "desc": "Does not regenerate Poise." },
+    "perfect_poise":  { "name": "Perfect Poise",  "desc": "Recover 1 Current Poise after every action if not Hit." },
+    "hardy":          { "name": "Hardy",          "desc": "+1 Max Poise from tough constitution." },
+    "flight":         { "name": "Flight",         "desc": "May move to any elevation within 4 units. Disengage from melee freely for 2 Current Poise." },
+    "spellcaster":    { "name": "Spellcaster",    "desc": "May cast spells. Die size for casting is based on Current Poise." },
+    "ranged_parry":   { "name": "Ranged Parry",   "desc": "Once per turn, deflect a successful ranged attack for free." },
+    "old":            { "name": "Old",            "desc": "+2 Max Poise. Moves at half speed." },
+    "guild_training": { "name": "Guild Training", "desc": "+1 Movement and +1 Max Poise from professional guild training." },
+    "assassination":  { "name": "Assassination",  "desc": "Attack costs 4 Current Poise instead of 2. Damage is doubled against Max Poise hits." },
+    "novice_spellcaster":    { "name": "Novice Spellcaster",    "desc": "May cast spells. Die size for casting is based on Current Poise. Has 1 spell slots." }
+  
+  },
+
   "spells": [
-    { "id": "fog",    "name": "Fog",    "school": "Control",    "target": 4, "effect": "Place a 4-unit fog zone. Blocks line of sight. Lasts until wizard acts again." },
-    { "id": "bind",   "name": "Bind",   "school": "Control",    "target": 7, "effect": "Target cannot move, attack, or be attacked until their next turn. Units in melee with them may leave freely." },
+    { "id": "fog",    "name": "Fog",    "school": "Control",    "target": 4, "effect": "Place a 4-unit fog zone. Blocks line of sight. Lasts for 3 turns" },
+    { "id": "bind",   "name": "Bind",   "school": "Control",    "target": 5, "effect": "Target cannot move, attack, or be attacked until their next turn. Units in melee with them may leave freely." },
     { "id": "push",   "name": "Push",   "school": "Control",    "target": 5, "effect": "Knock a target 2 units in any direction. If they hit terrain or a unit they take a Poise Shred." },
     { "id": "swap",   "name": "Swap",   "school": "Control",    "target": 6, "effect": "Two units within range swap positions instantly." },
-    { "id": "expose", "name": "Expose", "school": "Disruption", "target": 4, "effect": "Target's Current Poise counts as half for being hit this turn." },
+    { "id": "expose", "name": "Expose", "school": "Disruption", "target": 6, "effect": "Target's Current Poise counts as half for being hit this turn." },
     { "id": "rust",   "name": "Rust",   "school": "Disruption", "target": 4, "effect": "Target's weapon damage is reduced by 1 until the start of their next turn." },
     { "id": "rally",  "name": "Rally",  "school": "Support",    "target": 3, "effect": "One ally recovers Poise equal to the wizard's Poise Recovery." },
     { "id": "ward",   "name": "Ward",   "school": "Support",    "target": 3, "effect": "One ally cannot be targeted by ranged attacks until they move or attack." },

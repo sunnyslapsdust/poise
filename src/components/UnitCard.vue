@@ -117,8 +117,8 @@
 
       <!-- Abilities -->
       <div v-if="unit.abilities.length" class="abilities">
-        <div v-for="a in unit.abilities" :key="a.name" class="ab">
-          <span class="ab-name">{{ a.name }}. </span>{{ a.desc }}
+        <div v-for="a in unit.abilities" :key="a.traitId ?? a.name" class="ab">
+          <span class="ab-name">{{ resolveAbility(a).name }}. </span>{{ resolveAbility(a).desc }}
         </div>
       </div>
 
@@ -146,20 +146,19 @@
           </div>
           <div class="cast-panel-body">
             <div class="cast-roll-area">
+              <button class="cast-conc-btn" @click="doConcentrate" :disabled="spellRolling">
+                Concentrate
+              </button>
               <div class="cast-num-wrap">
                 <span class="cast-big-num" :style="{ color: castNumColor }">{{ castDisplay }}</span>
                 <span class="cast-sub-lbl">{{ castLbl }}</span>
               </div>
               <button class="cast-roll-btn" @click="rollSpell" :disabled="spellRolling" :style="{ borderColor: color + '55', color }">
-                Roll
+                Cast
               </button>
             </div>
-            <div class="cast-invest-row">
-              <span class="invest-lbl">Invest</span>
-              <button class="ctrl-btn" @click="decrementInvest">−</button>
-              <span class="ctrl-val">{{ spellInvestment }}</span>
-              <button class="ctrl-btn" @click="incrementInvest">+</button>
-              <span class="invest-die-hint">{{ spellDie.label }}</span>
+            <div v-if="spellConcentration > 0" class="cast-conc-info">
+              {{ spellConcentration }} turn{{ spellConcentration > 1 ? 's' : '' }} concentrated — TN reduced to {{ effectiveTN }}
             </div>
           </div>
         </div>
@@ -226,7 +225,7 @@
 <script setup>
 import { computed, ref, watch } from 'vue'
 import { useBattleStore } from '../stores/battle'
-import { FACTIONS, SPELLS, dieForMP } from '../data/units'
+import { FACTIONS, SPELLS, dieForMP, resolveAbility } from '../data/units'
 
 const props = defineProps({ iid: String, unit: Object })
 const store = useBattleStore()
@@ -319,7 +318,7 @@ function handleRoll() {
   const savedBoost = boost.value
   boost.value = 0
   boostApplied.value = 0   // keep 0 during animation so raw values show
-  store.setCur(props.iid, ps.value.cur - 2)
+  store.setCur(props.iid, ps.value.cur - (props.unit.attackCost ?? 2))
   rolling.value = true
   rawRoll.value = null
   let n = 0
@@ -334,28 +333,31 @@ function handleRoll() {
 }
 
 // ── Spell panel (wizard only) ─────────────────────────────────────────────
-const selectedSpell   = ref(null)
-const spellInvestment = ref(0)
-const spellRolling    = ref(false)
-const spellRawRoll    = ref(null)
-const spellResult     = ref(null)   // { success, roll, total, investedPoise }
+const selectedSpell = ref(null)
+const spellRolling  = ref(false)
+const spellRawRoll  = ref(null)
+const spellResult   = ref(null)   // { success, roll, effectiveTN }
 
-const spellSlots = computed(() => store.getSpellSlots(props.iid))
-const spellDie   = computed(() => dieForMP(ps.value.cur))
-const spellById  = computed(() => Object.fromEntries(SPELLS.map(s => [s.id, s])))
+const spellSlots        = computed(() => store.getSpellSlots(props.iid))
+const spellDie          = computed(() => dieForMP(ps.value.cur))
+const spellById         = computed(() => Object.fromEntries(SPELLS.map(s => [s.id, s])))
+const spellConcentration = computed(() =>
+  selectedSpell.value ? store.getConcentration(props.iid, selectedSpell.value.id) : 0
+)
+const effectiveTN = computed(() =>
+  selectedSpell.value ? Math.max(1, selectedSpell.value.target - spellConcentration.value) : 0
+)
 
 const castDisplay = computed(() => {
   if (spellRawRoll.value === null) return spellDie.value.label
-  if (spellResult.value?.investedPoise > 0) return spellResult.value.total
   return spellRawRoll.value
 })
 const castLbl = computed(() => {
   if (!selectedSpell.value) return ''
-  if (spellRolling.value || spellRawRoll.value === null) return `vs TN ${selectedSpell.value.target}`
+  if (spellRolling.value || spellRawRoll.value === null) return `vs TN ${effectiveTN.value}`
   const r = spellResult.value
-  if (!r) return `vs TN ${selectedSpell.value.target}`
-  const breakdown = r.investedPoise > 0 ? `${r.roll} + ${r.investedPoise} = ${r.total}` : `${r.roll}`
-  return `${breakdown} vs TN ${selectedSpell.value.target} — ${r.success ? 'SUCCESS' : 'FAIL'}`
+  if (!r) return `vs TN ${effectiveTN.value}`
+  return `${r.roll} vs TN ${r.effectiveTN} — ${r.success ? 'SUCCESS' : 'FAIL'}`
 })
 const castNumColor = computed(() => {
   if (!spellResult.value) return color.value
@@ -364,22 +366,20 @@ const castNumColor = computed(() => {
 
 function spellItemClasses(spell) {
   const inSlot = spellSlots.value.find(sl => sl.spellId === spell.id)
-  const canAttempt = store.canAttemptSpell(props.iid, spell.id)
   return {
     'spell-slotted':     !!inSlot && !inSlot.failed,
     'spell-slot-failed': !!inSlot && inSlot.failed,
     'spell-selected':    selectedSpell.value?.id === spell.id,
-    'spell-disabled':    !canAttempt,
+    'spell-disabled':    !store.canAttemptSpell(props.iid, spell.id),
   }
 }
 
 function selectSpell(spell) {
   if (!store.canAttemptSpell(props.iid, spell.id)) return
   if (selectedSpell.value?.id === spell.id) { closeCastPanel(); return }
-  selectedSpell.value   = spell
-  spellInvestment.value = 0
-  spellRawRoll.value    = null
-  spellResult.value     = null
+  selectedSpell.value = spell
+  spellRawRoll.value  = null
+  spellResult.value   = null
 }
 
 function closeCastPanel() {
@@ -388,18 +388,16 @@ function closeCastPanel() {
   spellResult.value   = null
 }
 
-function incrementInvest() {
-  if (spellInvestment.value >= ps.value.cur) return
-  spellInvestment.value++
+function doConcentrate() {
+  if (!selectedSpell.value) return
+  store.concentrate(props.iid, selectedSpell.value.id)
+  spellRawRoll.value = null
+  spellResult.value  = null
 }
-function decrementInvest() {
-  if (spellInvestment.value <= 0) return
-  spellInvestment.value--
-}
+
 
 function rollSpell() {
   if (spellRolling.value || !selectedSpell.value) return
-  const savedInvest = spellInvestment.value
   spellRolling.value = true
   spellRawRoll.value = null
   spellResult.value  = null
@@ -408,9 +406,9 @@ function rollSpell() {
     spellRawRoll.value = Math.floor(Math.random() * spellDie.value.sides) + 1
     if (++n >= 3) {
       clearInterval(iv)
-      const result = store.attemptSpell(props.iid, selectedSpell.value.id, savedInvest)
+      const result = store.attemptSpell(props.iid, selectedSpell.value.id)
       spellRawRoll.value = result.roll
-      spellResult.value  = { ...result, investedPoise: savedInvest }
+      spellResult.value  = result
       spellRolling.value = false
     }
   }, 25)
@@ -531,17 +529,17 @@ function rollSpell() {
 .cast-close-btn:hover { color: var(--muted); }
 
 .cast-panel-body { display: flex; flex-direction: column; gap: 8px; }
-.cast-roll-area { display: flex; align-items: center; gap: 10px; }
+.cast-roll-area { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
 .cast-num-wrap { flex: 1; display: flex; flex-direction: column; align-items: center; }
 .cast-big-num { font-family: var(--font-display); font-size: 38px; line-height: 1; transition: color .15s; }
 .cast-sub-lbl { font-size: 9px; letter-spacing: .08em; color: var(--muted); text-align: center; margin-top: 2px; min-height: 12px; }
-.cast-roll-btn { padding: 10px 18px; border-radius: 8px; border: 1px solid var(--border); background: transparent; font-size: 12px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; transition: background .12s; }
+.cast-conc-btn, .cast-roll-btn { padding: 10px 14px; border-radius: 8px; border: 1px solid var(--border); background: transparent; font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; transition: background .12s, color .12s; flex-shrink: 0; }
+.cast-conc-btn { color: var(--muted); }
+.cast-conc-btn:not(:disabled):hover { background: rgba(255,255,255,.05); color: var(--text); }
+.cast-conc-btn:disabled { opacity: .4; }
 .cast-roll-btn:disabled { opacity: .5; }
 .cast-roll-btn:not(:disabled):hover { background: rgba(255,255,255,.05); }
-
-.cast-invest-row { display: flex; align-items: center; gap: 8px; }
-.invest-lbl { font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); min-width: 50px; font-weight: 500; }
-.invest-die-hint { font-size: 10px; color: var(--dim); margin-left: 4px; }
+.cast-conc-info { font-size: 10px; color: var(--muted); letter-spacing: .04em; text-align: center; padding: 2px 0 2px; }
 
 /* Spell list */
 .spell-list { display: flex; flex-direction: column; gap: 4px; padding-bottom: 8px; }

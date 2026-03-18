@@ -102,38 +102,68 @@
         </div>
       </div>
 
-      <!-- Stats -->
+      <!-- Stats: building blocks for custom units, free steppers for base units -->
       <div class="section">
-        <div class="section-title">Stats</div>
-        <div class="stats-grid">
-          <div v-for="s in STAT_DEFS" :key="s.key" class="stat-cell">
-            <span class="stat-lbl">{{ s.label }}</span>
-            <div class="stat-ctrl">
-              <button class="stat-btn" @click="adjustStat(s.key, -1)">−</button>
-              <span class="stat-val">{{ draft[s.key] }}</span>
-              <button class="stat-btn" @click="adjustStat(s.key, 1)">+</button>
+        <div class="section-title">{{ draft._blocks ? 'Build' : 'Stats' }}</div>
+
+        <!-- ── Building block selectors (custom units) ── -->
+        <template v-if="draft._blocks">
+          <div v-for="cat in BUILD_CATS" :key="cat.key" class="field">
+            <span class="field-lbl">{{ cat.label }}</span>
+            <div class="block-pills">
+              <button
+                v-for="opt in cat.options" :key="opt.id"
+                class="block-pill"
+                :class="{ active: draft._blocks[cat.key] === opt.id }"
+                @click="selectBlock(cat.key, opt.id)"
+              >{{ opt.label }}</button>
             </div>
           </div>
-        </div>
-      </div>
-
-      <!-- Weapon -->
-      <div class="section">
-        <div class="section-title">Weapon</div>
-        <label class="field">
-          <span class="field-lbl">Name</span>
-          <input class="field-input" v-model="draft.weapon" />
-        </label>
-        <div class="field">
-          <span class="field-lbl">Type</span>
-          <div class="toggle-row">
-            <button :class="['toggle-btn', { active: draft.wtype === 'Melee' }]"  @click="draft.wtype = 'Melee'">Melee</button>
-            <button :class="['toggle-btn', { active: draft.wtype === 'Ranged' }]" @click="draft.wtype = 'Ranged'">Ranged</button>
+          <!-- Derived stat preview -->
+          <div class="stat-preview">
+            <div class="sp-item"><span class="sp-lbl">MP</span><span class="sp-val">{{ draft.mp }}</span></div>
+            <div class="sp-item"><span class="sp-lbl">PR</span><span class="sp-val">{{ draft.pr }}</span></div>
+            <div class="sp-item"><span class="sp-lbl">MOV</span><span class="sp-val">{{ draft.mov }}</span></div>
+            <div class="sp-item"><span class="sp-lbl">DMG</span><span class="sp-val">{{ draft.dmg }}</span></div>
+            <div class="sp-item sp-wide"><span class="sp-lbl">Weapon</span><span class="sp-val">{{ draft.weapon }} · {{ draft.wtype }}</span></div>
           </div>
-        </div>
+          <!-- Weapon display name override -->
+          <label class="field" style="margin-top:8px">
+            <span class="field-lbl">Weapon display name</span>
+            <input class="field-input" v-model="draft.weapon" />
+          </label>
+        </template>
+
+        <!-- ── Free steppers (base units) ── -->
+        <template v-else>
+          <div class="stats-grid">
+            <div v-for="s in STAT_DEFS" :key="s.key" class="stat-cell">
+              <span class="stat-lbl">{{ s.label }}</span>
+              <div class="stat-ctrl">
+                <button class="stat-btn" @click="adjustStat(s.key, -1)">−</button>
+                <span class="stat-val">{{ draft[s.key] }}</span>
+                <button class="stat-btn" @click="adjustStat(s.key, 1)">+</button>
+              </div>
+            </div>
+          </div>
+          <!-- Weapon for base units -->
+          <div class="section" style="margin-top:12px;margin-bottom:0">
+            <label class="field">
+              <span class="field-lbl">Weapon name</span>
+              <input class="field-input" v-model="draft.weapon" />
+            </label>
+            <div class="field">
+              <span class="field-lbl">Type</span>
+              <div class="toggle-row">
+                <button :class="['toggle-btn', { active: draft.wtype === 'Melee' }]"  @click="draft.wtype = 'Melee'">Melee</button>
+                <button :class="['toggle-btn', { active: draft.wtype === 'Ranged' }]" @click="draft.wtype = 'Ranged'">Ranged</button>
+              </div>
+            </div>
+          </div>
+        </template>
       </div>
 
-      <!-- Tags / Specials -->
+      <!-- Tags / Specials (building blocks auto-populate experience & armour tags) -->
       <div class="section">
         <div class="section-title">Tags</div>
         <div class="chip-list">
@@ -151,14 +181,42 @@
       <!-- Abilities -->
       <div class="section">
         <div class="section-title">Abilities</div>
+
+        <!-- Existing abilities -->
         <div v-for="(ab, i) in draft.abilities" :key="i" class="ability-block">
-          <div class="ab-top-row">
-            <input class="field-input" v-model="ab.name" placeholder="Ability name" />
-            <button class="chip-rm" @click="draft.abilities.splice(i, 1)">×</button>
-          </div>
-          <textarea class="ab-desc" v-model="ab.desc" placeholder="Description…" rows="2"></textarea>
+          <!-- Library trait reference -->
+          <template v-if="ab.traitId">
+            <div class="ab-top-row">
+              <span class="ab-trait-name">{{ resolveAbility(ab).name }}</span>
+              <span class="ab-library-badge">Library</span>
+              <button class="chip-rm" @click="draft.abilities.splice(i, 1)">×</button>
+            </div>
+            <div class="ab-trait-desc">{{ resolveAbility(ab).desc }}</div>
+          </template>
+          <!-- Inline custom ability -->
+          <template v-else>
+            <div class="ab-top-row">
+              <input class="field-input" v-model="ab.name" placeholder="Ability name" />
+              <button class="chip-rm" @click="draft.abilities.splice(i, 1)">×</button>
+            </div>
+            <textarea class="ab-desc" v-model="ab.desc" placeholder="Description…" rows="2"></textarea>
+          </template>
         </div>
-        <button class="btn-add-ability" @click="draft.abilities.push({ name: '', desc: '' })">+ Add Ability</button>
+
+        <!-- Trait library picker -->
+        <div class="trait-picker">
+          <span class="trait-picker-lbl">From library</span>
+          <div class="trait-chips">
+            <button
+              v-for="(trait, tid) in TRAITS" :key="tid"
+              class="trait-chip"
+              :class="{ 'trait-added': draft.abilities.some(a => a.traitId === tid) }"
+              @click="addTrait(tid)"
+            >{{ trait.name }}</button>
+          </div>
+        </div>
+
+        <button class="btn-add-ability" @click="draft.abilities.push({ name: '', desc: '' })">+ Custom ability</button>
       </div>
 
       <!-- Action bar -->
@@ -193,17 +251,49 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { useCreatorStore } from '../stores/creator'
-import { FACTIONS } from '../data/units'
+import { FACTIONS, BUILD_RULES, calcBlockStats, TRAITS, resolveAbility } from '../data/units'
 
 const creator = useCreatorStore()
 
-// ── Stat definitions ──────────────────────────────────────────────────────
+// ── Stat definitions (base unit free-edit) ────────────────────────────────
 const STAT_DEFS = [
   { key: 'mp',  label: 'Max Poise', min: 1, max: 20 },
   { key: 'pr',  label: 'Recovery',  min: 0, max: 10 },
   { key: 'mov', label: 'Move',      min: 1, max: 10 },
   { key: 'dmg', label: 'Damage',    min: 1, max: 5  },
 ]
+
+// ── Building block categories ──────────────────────────────────────────────
+const BUILD_CATS = [
+  { key: 'experience', label: 'Experience',  options: BUILD_RULES.experience },
+  { key: 'armour',     label: 'Armour',      options: BUILD_RULES.armour },
+  { key: 'weapon',     label: 'Weapon',      options: BUILD_RULES.weapon },
+  { key: 'spellSlots', label: 'Spell Slots', options: BUILD_RULES.spellSlots },
+]
+
+function selectBlock(catKey, optId) {
+  if (!draft.value?._blocks) return
+  draft.value._blocks[catKey] = optId
+  const stats = calcBlockStats(draft.value._blocks)
+  draft.value.mp         = stats.mp
+  draft.value.pr         = stats.pr
+  draft.value.mov        = stats.mov
+  draft.value.dmg        = stats.dmg
+  draft.value.weapon     = stats.weapon
+  draft.value.wtype      = stats.wtype
+  draft.value.isWizard   = stats.isWizard
+  draft.value.spellSlots = stats.spellSlots
+  // Sync experience, armour and spellcaster tag into specials
+  const exp = BUILD_RULES.experience.find(e => e.id === draft.value._blocks.experience)
+  const arm = BUILD_RULES.armour.find(a => a.id === draft.value._blocks.armour)
+  const blockLabels = [exp?.label, arm?.label].filter(Boolean)
+  if (stats.isWizard) blockLabels.push('Spellcaster')
+  const prevBlockLabels = BUILD_RULES.experience.map(e => e.label)
+    .concat(BUILD_RULES.armour.map(a => a.label))
+    .concat(['Spellcaster'])
+  const userSpecials = (draft.value.specials ?? []).filter(s => !prevBlockLabels.includes(s))
+  draft.value.specials = [...blockLabels, ...userSpecials]
+}
 
 // ── List view ─────────────────────────────────────────────────────────────
 const listFactionIds = computed(() =>
@@ -259,6 +349,12 @@ function startNew() {
 function adjustStat(key, delta) {
   const def = STAT_DEFS.find(s => s.key === key)
   draft.value[key] = Math.max(def.min, Math.min(def.max, draft.value[key] + delta))
+}
+
+function addTrait(traitId) {
+  if (!draft.value) return
+  if (draft.value.abilities.some(a => a.traitId === traitId)) return
+  draft.value.abilities.push({ traitId })
 }
 
 function addTag() {
@@ -413,6 +509,27 @@ function handleDelete() {
   transition: all .12s;
 }
 
+/* Building block pills */
+.block-pills { display: flex; flex-wrap: wrap; gap: 5px; }
+.block-pill {
+  font-size: 11px; font-weight: 500; padding: 6px 11px; border-radius: 6px;
+  border: 1px solid var(--border); background: transparent; color: var(--muted);
+  transition: all .12s; cursor: pointer;
+}
+.block-pill.active { background: var(--surface2); color: var(--text); border-color: var(--border2); }
+.block-pill:hover:not(.active) { border-color: var(--border2); color: var(--text); }
+
+/* Derived stat preview */
+.stat-preview {
+  display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px;
+  padding: 10px; background: var(--surface2); border-radius: 8px;
+}
+.sp-item { display: flex; flex-direction: column; align-items: center; min-width: 44px; }
+.sp-wide { min-width: unset; flex: 1; align-items: flex-start; flex-direction: row; gap: 8px; align-items: center; }
+.sp-lbl { font-size: 8px; letter-spacing: .12em; text-transform: uppercase; color: var(--dim); }
+.sp-val { font-family: var(--font-display); font-size: 20px; line-height: 1.1; }
+.sp-wide .sp-val { font-size: 13px; font-family: inherit; color: var(--muted); }
+
 /* Stats grid */
 .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 .stat-cell { background: var(--surface2); border-radius: 8px; padding: 8px 10px; }
@@ -456,7 +573,22 @@ function handleDelete() {
 }
 .btn-add-tag:hover { border-color: var(--border2); color: var(--text); }
 
+/* Trait library picker */
+.trait-picker { margin-bottom: 10px; }
+.trait-picker-lbl { font-size: 9px; letter-spacing: .12em; text-transform: uppercase; color: var(--dim); display: block; margin-bottom: 6px; }
+.trait-chips { display: flex; flex-wrap: wrap; gap: 5px; }
+.trait-chip {
+  font-size: 10px; font-weight: 500; padding: 4px 9px; border-radius: 4px;
+  border: 1px solid var(--border); background: transparent; color: var(--muted);
+  transition: all .12s; cursor: pointer;
+}
+.trait-chip:hover:not(.trait-added) { border-color: var(--border2); color: var(--text); }
+.trait-added { background: rgba(167,139,250,.1); border-color: rgba(167,139,250,.35); color: #a78bfa; cursor: default; }
+
 /* Abilities */
+.ab-trait-name { font-size: 12px; font-weight: 600; flex: 1; }
+.ab-library-badge { font-size: 9px; font-weight: 600; letter-spacing: .08em; padding: 2px 6px; border-radius: 3px; background: rgba(167,139,250,.1); color: #a78bfa; border: 1px solid rgba(167,139,250,.25); flex-shrink: 0; }
+.ab-trait-desc { font-size: 11px; color: var(--dim); line-height: 1.45; padding: 4px 0 2px; }
 .ability-block {
   background: var(--surface2); border-radius: 8px; padding: 8px 10px;
   margin-bottom: 8px; border: 1px solid var(--border);

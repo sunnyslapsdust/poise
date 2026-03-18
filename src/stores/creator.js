@@ -1,7 +1,7 @@
 // src/stores/creator.js
 import { defineStore } from 'pinia'
 import { ref, computed, watch } from 'vue'
-import { UNITS, FACTIONS } from '../data/units'
+import { UNITS, FACTIONS, calcBlockStats } from '../data/units'
 
 const LS_CUSTOM = 'poise-custom-units'
 const LS_EDITS  = 'poise-unit-edits'
@@ -65,16 +65,17 @@ export const useCreatorStore = defineStore('creator', () => {
   }
 
   function newUnit() {
+    const blocks = { experience: 'greenhorn', armour: 'unarmoured', weapon: 'normal_weapon', spellSlots: 'none' }
+    const stats  = calcBlockStats(blocks)
     return {
       id: 'custom-' + Date.now(),
       faction: Object.keys(FACTIONS)[0],
       name: 'New Unit',
       role: 'Unit',
-      mp: 6, pr: 2, mov: 4, dmg: 2,
-      weapon: 'Normal Weapon', wtype: 'Melee',
-      specials: [],
+      ...stats,
+      specials: ['Greenhorn', 'Unarmoured'],
       abilities: [],
-      art: null,
+      _blocks: blocks,
     }
   }
 

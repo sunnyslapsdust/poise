@@ -28,7 +28,7 @@ export const useBattleStore = defineStore('battle', () => {
   // ── Helpers ────────────────────────────────────────────────────────────
   function getPoiseState(iid) { return poise.value[iid] }
   function getName(iid)       { return names.value[iid] }
-  function getDie(iid)        { return dieForMP(poise.value[iid].max) }
+  function getDie(iid)        { return dieForMP(poise.value[iid].cur) }
   function getPoiseColor(iid, factionColor) {
     const s = poise.value[iid]
     return poiseColor(s.cur, s.max, factionColor)
@@ -47,12 +47,8 @@ export const useBattleStore = defineStore('battle', () => {
   // ── Actions ────────────────────────────────────────────────────────────
 
   // Accept the full unit object so custom units work without importing UNITS here
-  function _emptySlots() {
-    return [
-      { spellId: null, failed: false },
-      { spellId: null, failed: false },
-      { spellId: null, failed: false },
-    ]
+  function _emptySlots(count = 3) {
+    return Array.from({ length: count }, () => ({ spellId: null, failed: false }))
   }
 
   function addUnit(unit) {
@@ -60,7 +56,11 @@ export const useBattleStore = defineStore('battle', () => {
     roster.value.push({ iid, unitId: unit.id })
     poise.value[iid] = {
       cur: unit.mp, max: unit.mp, origMax: unit.mp,
-      ...(unit.isWizard ? { spellSlots: _emptySlots() } : {}),
+      ...(unit.isWizard ? {
+        spellSlots: _emptySlots(unit.spellSlots ?? 3),
+        concentrations: {},
+        allowedSpellSchools: unit.spellSchools ?? null,
+      } : {}),
     }
     names.value[iid]     = generateSingleName(names.value)
     collapsed.value[iid] = false
@@ -95,7 +95,7 @@ export const useBattleStore = defineStore('battle', () => {
     const s = poise.value[iid]
     s.max = s.origMax
     s.cur = s.origMax
-    if (s.spellSlots) s.spellSlots = _emptySlots()
+    if (s.spellSlots) { s.spellSlots = _emptySlots(); s.concentrations = {} }
   }
 
   // ── Spell actions ───────────────────────────────────────────────────────
@@ -105,21 +105,36 @@ export const useBattleStore = defineStore('battle', () => {
   }
 
   function canAttemptSpell(iid, spellId) {
-    const slots = poise.value[iid]?.spellSlots
-    if (!slots) return false
-    if (slots.some(sl => sl.spellId === spellId)) return true
-    return slots.filter(sl => sl.spellId !== null).length < 3
+    const s = poise.value[iid]
+    if (!s?.spellSlots) return false
+    if (s.allowedSpellSchools) {
+      const spell = SPELLS.find(sp => sp.id === spellId)
+      if (spell && !s.allowedSpellSchools.includes(spell.school)) return false
+    }
+    if (s.spellSlots.some(sl => sl.spellId === spellId)) return true
+    return s.spellSlots.filter(sl => sl.spellId !== null).length < s.spellSlots.length
   }
 
-  // Returns { success, roll, total }
-  function attemptSpell(iid, spellId, investedPoise) {
+  function getConcentration(iid, spellId) {
+    return poise.value[iid]?.concentrations?.[spellId] ?? 0
+  }
+
+  function concentrate(iid, spellId) {
     const s = poise.value[iid]
-    const actualInvested = Math.min(investedPoise, s.cur)
+    if (!s) return
+    if (!s.concentrations) s.concentrations = {}
+    s.concentrations[spellId] = (s.concentrations[spellId] ?? 0) + 1
+  }
+
+  // Returns { success, roll, effectiveTN }
+  function attemptSpell(iid, spellId) {
+    const s = poise.value[iid]
+    const conc = s.concentrations?.[spellId] ?? 0
     const die  = dieForMP(s.cur)
     const roll  = Math.floor(Math.random() * die.sides) + 1
-    const total = roll + actualInvested
     const spell = SPELLS.find(sp => sp.id === spellId)
-    const success = total >= spell.target
+    const effectiveTN = Math.max(1, spell.target - conc)
+    const success = roll >= effectiveTN
 
     const existingSlot = s.spellSlots.find(sl => sl.spellId === spellId)
     if (!existingSlot) {
@@ -129,8 +144,12 @@ export const useBattleStore = defineStore('battle', () => {
       existingSlot.failed = false
     }
 
-    setCur(iid, s.cur - actualInvested - 2)
-    return { success, roll, total }
+    // Reset concentration for this spell after casting
+    if (!s.concentrations) s.concentrations = {}
+    s.concentrations[spellId] = 0
+
+    setCur(iid, s.cur - 2)
+    return { success, roll, effectiveTN }
   }
 
   function resetAll() {
@@ -141,6 +160,6 @@ export const useBattleStore = defineStore('battle', () => {
     roster, poise, names, collapsed, toasts,
     getPoiseState, getName, getDie, getPoiseColor, getBarPct, getStatus,
     addUnit, removeUnit, setMax, setCur, resetUnit, resetAll, toggleCollapsed,
-    getSpellSlots, canAttemptSpell, attemptSpell,
+    getSpellSlots, canAttemptSpell, getConcentration, concentrate, attemptSpell,
   }
 })

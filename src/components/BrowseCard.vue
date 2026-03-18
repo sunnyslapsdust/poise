@@ -79,8 +79,8 @@
 
       <!-- Abilities -->
       <div v-if="unit.abilities.length" class="abilities">
-        <div v-for="a in unit.abilities" :key="a.name" class="ab">
-          <span class="ab-name">{{ a.name }}. </span>{{ a.desc }}
+        <div v-for="a in unit.abilities" :key="a.traitId ?? a.name" class="ab">
+          <span class="ab-name">{{ resolveAbility(a).name }}. </span>{{ resolveAbility(a).desc }}
         </div>
       </div>
 
@@ -98,7 +98,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { useBattleStore } from '../stores/battle'
-import { FACTIONS, dieForMP } from '../data/units'
+import { FACTIONS, dieForMP, resolveAbility } from '../data/units'
 
 const props = defineProps({ unit: Object })
 const store = useBattleStore()
