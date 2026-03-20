@@ -60,6 +60,7 @@ export const useBattleStore = defineStore('battle', () => {
         spellSlots: _emptySlots(unit.spellSlots ?? 3),
         concentrations: {},
         allowedSpellSchools: unit.spellSchools ?? null,
+        grantedSpells: unit.grantedSpells ?? [],
       } : {}),
     }
     names.value[iid]     = generateSingleName(names.value)
@@ -107,9 +108,17 @@ export const useBattleStore = defineStore('battle', () => {
   function canAttemptSpell(iid, spellId) {
     const s = poise.value[iid]
     if (!s?.spellSlots) return false
-    if (s.allowedSpellSchools) {
-      const spell = SPELLS.find(sp => sp.id === spellId)
-      if (spell && !s.allowedSpellSchools.includes(spell.school)) return false
+    const spell    = SPELLS.find(sp => sp.id === spellId)
+    const unitId   = roster.value.find(r => r.iid === iid)?.unitId
+    // Restricted spells: auto-granted to listed units, unavailable to all others
+    if (spell?.restrictedTo) {
+      if (!spell.restrictedTo.includes(unitId)) return false
+    } else {
+      // Non-restricted spells: check explicit grant or school filter
+      const isGranted = s.grantedSpells?.includes(spellId)
+      if (!isGranted && s.allowedSpellSchools) {
+        if (spell && !s.allowedSpellSchools.includes(spell.school)) return false
+      }
     }
     if (s.spellSlots.some(sl => sl.spellId === spellId)) return true
     return s.spellSlots.filter(sl => sl.spellId !== null).length < s.spellSlots.length

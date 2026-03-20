@@ -5,6 +5,7 @@ export const FACTIONS      = unitsData.factions
 export const UNITS         = unitsData.units
 export const SPELLS        = unitsData.spells
 export const TRAITS        = unitsData.traits
+export const ITEMS         = unitsData.items
 export const BUILD_RULES   = unitsData.buildingBlocks
 
 // Calculate final stats from a { experience, armour, weapon, spellSlots? } block selection
@@ -39,17 +40,36 @@ export function calcTraitModifiers(abilities = []) {
   return mods
 }
 
-// Full stat calculation: building blocks + trait modifiers
-export function calcUnitStats(blocks, abilities = []) {
-  const base = calcBlockStats(blocks)
-  const mods = calcTraitModifiers(abilities)
+// Sum stat modifiers from persistent (non-consumable) items
+export function calcItemModifiers(items = []) {
+  const mods = { mp: 0, pr: 0, mov: 0, dmg: 0 }
+  for (const it of items) {
+    if (!it.itemId) continue
+    const item = ITEMS[it.itemId]
+    if (!item || item.consumable) continue   // consumables only activate in battle
+    for (const key of Object.keys(mods)) mods[key] += item[key] ?? 0
+  }
+  return mods
+}
+
+// Full stat calculation: building blocks + trait modifiers + persistent item modifiers
+export function calcUnitStats(blocks, abilities = [], items = []) {
+  const base      = calcBlockStats(blocks)
+  const mods      = calcTraitModifiers(abilities)
+  const itemMods  = calcItemModifiers(items)
   return {
     ...base,
-    mp:  Math.max(1, base.mp  + mods.mp),
-    pr:  Math.max(0, base.pr  + mods.pr),
-    mov: Math.max(1, base.mov + mods.mov),
-    dmg: Math.max(0, base.dmg + mods.dmg),
+    mp:  Math.max(1, base.mp  + mods.mp  + itemMods.mp),
+    pr:  Math.max(0, base.pr  + mods.pr  + itemMods.pr),
+    mov: Math.max(1, base.mov + mods.mov + itemMods.mov),
+    dmg: Math.max(0, base.dmg + mods.dmg + itemMods.dmg),
   }
+}
+
+// Resolve an item entry — itemId reference or inline { name, desc }
+export function resolveItem(entry) {
+  if (entry.itemId) return ITEMS[entry.itemId] ?? { name: entry.itemId, desc: '(unknown item)', consumable: true }
+  return entry
 }
 
 // Resolve an ability entry — traitId reference or inline { name, desc }

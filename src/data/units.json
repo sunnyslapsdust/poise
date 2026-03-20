@@ -212,14 +212,24 @@
     },
     {
       "id": "necromancer", "faction": "monster",
-      "name": "Necromancer", "role": "Spellcaster / Undead",
+      "name": "Necromancer", "role": "Spellcaster",
       "weapon": "Bone Staff",
-      "specials": ["Undead"],
+      "specials": [],
       "abilities": [
-        { "traitId": "undead" },
         { "traitId": "spellcaster" }
       ],
-      "_blocks": { "experience": "veteran", "armour": "full_armour", "weapon": "light_weapon", "spellSlots": "three" }
+      "_blocks": { "experience": "veteran", "armour": "partial_armour", "weapon": "light_weapon", "spellSlots": "three" }
+    },
+    {
+      "id": "lich", "faction": "monster",
+      "name": "Lich", "role": "Spellcaster / Boss",
+      "weapon": "Wand",
+      "specials": [],
+      "abilities": [
+        { "traitId": "spellcaster" },
+        { "traitId": "old" }
+      ],
+      "_blocks": { "experience": "master", "armour": "heavy_armour", "weapon": "light_weapon", "spellSlots": "three" }
     },
     {
       "id": "bondsman", "faction": "merchant",
@@ -256,7 +266,7 @@
       "abilities": [
         { "traitId": "spellcaster" }
       ],
-      "_blocks": { "experience": "veteran", "armour": "partial_armour", "weapon": "improvised", "spellSlots": "two" }
+      "_blocks": { "experience": "experienced", "armour": "partial_armour", "weapon": "improvised", "spellSlots": "two" }
     }
   ],
 
@@ -307,6 +317,8 @@
 
   },
 
+  "items": {},
+
   "spells": [
     { "id": "fog",    "name": "Fog",    "school": "Control",    "target": 4, "effect": "Place a 4-unit fog zone. Blocks line of sight. Lasts for 3 turns" },
     { "id": "bind",   "name": "Bind",   "school": "Control",    "target": 5, "effect": "Target cannot move, attack, or be attacked until their next turn. Units in melee with them may leave freely." },
@@ -316,6 +328,9 @@
     { "id": "rust",   "name": "Rust",   "school": "Disruption", "target": 4, "effect": "Target's weapon damage is reduced by 1 until the start of their next turn." },
     { "id": "rally",  "name": "Rally",  "school": "Support",    "target": 3, "effect": "One ally recovers Poise equal to the wizard's Poise Recovery." },
     { "id": "ward",   "name": "Ward",   "school": "Support",    "target": 3, "effect": "One ally cannot be targeted by ranged attacks until they move or attack." },
-    { "id": "haste",  "name": "Haste",  "school": "Support",    "target": 5, "effect": "One ally may move again after attacking this turn." }
+    { "id": "haste",  "name": "Haste",  "school": "Support",    "target": 5, "effect": "One ally may move again after attacking this turn." },
+    { "id": "bramble", "name": "Brambles", "school": "Control", "target": 3, "effect": "Target's movement reduced to 1 until end of their next turn.", "restrictedTo":["hedge_mage"] },
+     { "id": "presense", "name": "Presence", "school": "Support", "target": 4, "effect": "Enemies within 3 units of a target friendly must spend 1 extra CP on any action directed at that unit this turn.", "restrictedTo":["court_wizard"] },
+     { "id": "raise", "name": "Raise", "school": "Control", "target": 4, "effect": "When a unit is knocked out within 6 units of the Necromancer, they may spend 4 CP to raise that unit as a Skeleton.", "restrictedTo":["necromancer"] }
   ]
 }

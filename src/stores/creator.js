@@ -1,7 +1,7 @@
 // src/stores/creator.js
 import { defineStore } from 'pinia'
 import { ref, computed, watch } from 'vue'
-import { UNITS, FACTIONS, BUILD_RULES, calcUnitStats } from '../data/units'
+import { UNITS, FACTIONS, BUILD_RULES, SPELLS, calcUnitStats } from '../data/units'
 
 const LS_CUSTOM = 'poise-custom-units'
 const LS_EDITS  = 'poise-unit-edits'
@@ -17,12 +17,13 @@ export const useCreatorStore = defineStore('creator', () => {
   // Apply block-derived stats to any unit that has _blocks
   function applyBlockStats(u) {
     if (!u._blocks) return u
-    const stats   = calcUnitStats(u._blocks, u.abilities ?? [])
+    const stats   = calcUnitStats(u._blocks, u.abilities ?? [], u.items ?? [])
     const expLabel = BUILD_RULES.experience.find(e => e.id === u._blocks.experience)?.label
     const armEntry = BUILD_RULES.armour.find(a => a.id === u._blocks.armour)
     const autoTags = [expLabel].filter(Boolean)
     if (armEntry && armEntry.id !== 'unarmoured') autoTags.push(armEntry.label)
     if (stats.isWizard) autoTags.push('Spellcaster')
+    SPELLS.filter(s => s.restrictedTo?.includes(u.id)).forEach(s => autoTags.push(`Spell: ${s.name}`))
     return {
       ...u,
       mp:         stats.mp,
@@ -99,6 +100,8 @@ export const useCreatorStore = defineStore('creator', () => {
       ...stats,
       specials: [],
       abilities: [],
+      items: [],
+      grantedSpells: [],
       _blocks: blocks,
     }
   }

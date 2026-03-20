@@ -224,6 +224,72 @@
         <button class="btn-add-ability" @click="draft.abilities.push({ name: '', desc: '' })">+ Custom ability</button>
       </div>
 
+      <!-- Granted Spells (wizard units only) -->
+      <div v-if="draft.isWizard" class="section">
+        <div class="section-title">Granted Spells</div>
+        <p class="json-hint" style="margin-bottom:8px">These spells are always available to this unit, bypassing school filters. Restricted spells can only be granted here.</p>
+
+        <!-- Currently granted -->
+        <div v-if="draft.grantedSpells?.length" class="chip-list" style="margin-bottom:8px">
+          <div
+            v-for="(sid, i) in draft.grantedSpells" :key="i"
+            class="chip"
+            :class="spellById(sid)?.restrictedTo ? 'chip-restricted' : ''"
+          >
+            <span>{{ spellById(sid)?.name ?? sid }}</span>
+            <span v-if="spellById(sid)?.school" class="chip-school"> · {{ spellById(sid).school }}</span>
+            <button class="chip-rm" @click="draft.grantedSpells.splice(i, 1)">×</button>
+          </div>
+        </div>
+
+        <!-- Spell picker grouped by school -->
+        <div class="trait-picker">
+          <span class="trait-picker-lbl">Add spell</span>
+          <div class="trait-chips">
+            <button
+              v-for="spell in SPELLS" :key="spell.id"
+              class="trait-chip"
+              :class="{
+                'trait-added': draft.grantedSpells?.includes(spell.id),
+                'spell-restricted': !!spell.restrictedTo,
+              }"
+              :title="spell.effect"
+              @click="toggleGrantedSpell(spell.id)"
+            >{{ spell.name }}<span v-if="spell.restrictedTo" class="spell-lock"> ⚷</span></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Items -->
+      <div class="section">
+        <div class="section-title">Items</div>
+
+        <!-- Current items -->
+        <div v-for="(it, i) in draft.items" :key="i" class="ability-block">
+          <div class="ab-top-row">
+            <span class="ab-trait-name">{{ resolveItem(it).name }}</span>
+            <span class="ab-library-badge" :class="resolveItem(it).consumable ? 'badge-consumable' : 'badge-persistent'">
+              {{ resolveItem(it).consumable ? 'Consumable' : 'Persistent' }}
+            </span>
+            <button class="chip-rm" @click="draft.items.splice(i, 1)">×</button>
+          </div>
+          <div class="ab-trait-desc">{{ resolveItem(it).desc }}</div>
+        </div>
+
+        <!-- Item library picker -->
+        <div v-if="Object.keys(ITEMS).length" class="trait-picker">
+          <span class="trait-picker-lbl">From library</span>
+          <div class="trait-chips">
+            <button
+              v-for="(item, iid) in ITEMS" :key="iid"
+              class="trait-chip"
+              @click="addItem(iid)"
+            >{{ item.name }}</button>
+          </div>
+        </div>
+        <div v-else class="no-items-hint">No items in library yet.</div>
+      </div>
+
       <!-- Action bar -->
       <div class="action-bar">
         <button class="btn-save" @click="handleSave">Save</button>
@@ -256,7 +322,7 @@
 <script setup>
 import { ref, computed, watch } from 'vue'
 import { useCreatorStore } from '../stores/creator'
-import { FACTIONS, BUILD_RULES, calcUnitStats, TRAITS, resolveAbility } from '../data/units'
+import { FACTIONS, BUILD_RULES, calcUnitStats, TRAITS, ITEMS, SPELLS, resolveAbility, resolveItem } from '../data/units'
 
 const creator = useCreatorStore()
 
@@ -402,6 +468,24 @@ function addTrait(traitId) {
   if (!draft.value) return
   if (draft.value.abilities.some(a => a.traitId === traitId)) return
   draft.value.abilities.push({ traitId })
+}
+
+function addItem(itemId) {
+  if (!draft.value) return
+  if (!draft.value.items) draft.value.items = []
+  draft.value.items.push({ itemId })
+}
+
+function spellById(id) {
+  return SPELLS.find(s => s.id === id)
+}
+
+function toggleGrantedSpell(spellId) {
+  if (!draft.value) return
+  if (!draft.value.grantedSpells) draft.value.grantedSpells = []
+  const idx = draft.value.grantedSpells.indexOf(spellId)
+  if (idx !== -1) draft.value.grantedSpells.splice(idx, 1)
+  else            draft.value.grantedSpells.push(spellId)
 }
 
 function addTag() {
@@ -636,6 +720,14 @@ function handleDelete() {
 /* Abilities */
 .ab-trait-name { font-size: 12px; font-weight: 600; flex: 1; }
 .ab-library-badge { font-size: 9px; font-weight: 600; letter-spacing: .08em; padding: 2px 6px; border-radius: 3px; background: rgba(167,139,250,.1); color: #a78bfa; border: 1px solid rgba(167,139,250,.25); flex-shrink: 0; }
+.badge-consumable { background: rgba(251,191,36,.1); color: #fbbf24; border-color: rgba(251,191,36,.25); }
+.badge-persistent { background: rgba(74,222,128,.1); color: #4ade80; border-color: rgba(74,222,128,.25); }
+.no-items-hint { font-size: 11px; color: var(--dim); padding: 6px 0; }
+.chip-school { color: var(--dim); font-size: 10px; }
+.chip-restricted { border-color: rgba(251,191,36,.3); color: #fbbf24; }
+.spell-restricted { border-color: rgba(251,191,36,.25) !important; }
+.spell-restricted:not(.trait-added):hover { border-color: rgba(251,191,36,.5) !important; color: #fbbf24 !important; }
+.spell-lock { font-size: 9px; margin-left: 2px; opacity: .7; }
 .ab-trait-desc { font-size: 11px; color: var(--dim); line-height: 1.45; padding: 4px 0 2px; }
 .ability-block {
   background: var(--surface2); border-radius: 8px; padding: 8px 10px;
