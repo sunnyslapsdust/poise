@@ -326,6 +326,7 @@ function decrementBoost() {
 const rolling      = ref(false)
 const rawRoll      = ref(null)   // the actual die face value
 const boostApplied = ref(0)      // boost that was added to this roll
+const activeDie    = ref(null)   // die captured at roll-time, drives label during animation
 
 // diceDisplay depends only on rawRoll + boostApplied (NOT rolling)
 // so both are set atomically in the final frame — no two-step render
@@ -335,7 +336,7 @@ const diceDisplay = computed(() => {
   return rawRoll.value
 })
 const diceLbl = computed(() => {
-  if (rolling.value) return die.value.label
+  if (rolling.value) return activeDie.value?.label ?? die.value.label
   if (rawRoll.value !== null && boostApplied.value > 0)
     return `${rawRoll.value} + ${boostApplied.value}`
   return 'Die ▶'
@@ -344,7 +345,8 @@ const diceLbl = computed(() => {
 function handleRoll() {
   if (rolling.value) return
   const savedBoost = boost.value
-  const rollDie = die.value  // capture before CP is deducted
+  const rollDie = dieForMP(ps.value.cur + savedBoost * 2)  // reconstruct pre-boost CP
+  activeDie.value = rollDie
   boost.value = 0
   boostApplied.value = 0   // keep 0 during animation so raw values show
   store.setCur(props.iid, ps.value.cur - (props.unit.attackCost ?? 2))
