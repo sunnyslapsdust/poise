@@ -6,6 +6,7 @@ export const UNITS         = unitsData.units
 export const SPELLS        = unitsData.spells
 export const TRAITS        = unitsData.traits
 export const ITEMS         = unitsData.items
+export const TOME_SPELLS   = Object.fromEntries(unitsData.tomeSpells.map(s => [s.id, s]))
 export const BUILD_RULES   = unitsData.buildingBlocks
 
 // Calculate final stats from a { experience, armour, weapon, spellSlots? } block selection
@@ -67,9 +68,13 @@ export function calcUnitStats(blocks, abilities = [], items = []) {
 }
 
 // Resolve an item entry — itemId reference or inline { name, desc }
+// For tome items, attaches the resolved spell as .spell
 export function resolveItem(entry) {
-  if (entry.itemId) return ITEMS[entry.itemId] ?? { name: entry.itemId, desc: '(unknown item)', consumable: true }
-  return entry
+  const item = entry.itemId ? (ITEMS[entry.itemId] ?? { name: entry.itemId, desc: '(unknown item)', consumable: true }) : entry
+  if (item.type === 'tome' && item.spellId) {
+    return { ...item, spell: TOME_SPELLS[item.spellId] ?? { name: '???', desc: '(unknown spell)' } }
+  }
+  return item
 }
 
 // Resolve an ability entry — traitId reference or inline { name, desc }

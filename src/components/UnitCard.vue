@@ -122,6 +122,27 @@
         </div>
       </div>
 
+      <!-- Items -->
+      <div v-if="unit.items?.length" class="items">
+        <template v-for="(it, i) in unit.items" :key="i">
+          <!-- Tome -->
+          <div v-if="resolveItem(it).type === 'tome'" class="item item-tome">
+            <div class="tome-header">
+              <span class="tome-icon">📖</span>
+              <span class="tome-label">Tome</span>
+              <span class="tome-spell-name">{{ resolveItem(it).spell.name }}</span>
+            </div>
+            <div class="tome-spell-desc">{{ resolveItem(it).spell.desc }}</div>
+          </div>
+          <!-- Regular item -->
+          <div v-else class="item">
+            <span class="item-icon">⚙</span>
+            <span class="item-name">{{ resolveItem(it).name }}</span>
+            <span class="item-desc">{{ resolveItem(it).desc }}</span>
+          </div>
+        </template>
+      </div>
+
       <!-- ── Spell Panel (wizard only) ── -->
       <div v-if="unit.isWizard" class="spell-panel">
 
@@ -225,7 +246,7 @@
 <script setup>
 import { computed, ref, watch } from 'vue'
 import { useBattleStore } from '../stores/battle'
-import { FACTIONS, SPELLS, dieForMP, resolveAbility } from '../data/units'
+import { FACTIONS, SPELLS, dieForMP, resolveAbility, resolveItem } from '../data/units'
 
 const props = defineProps({ iid: String, unit: Object })
 const store = useBattleStore()
@@ -489,6 +510,19 @@ function rollSpell() {
 .abilities { padding: 0 12px 8px; }
 .ab { font-size: 11px; color: var(--muted); line-height: 1.5; padding: 5px 8px; background: rgba(255,255,255,.03); border-radius: 5px; margin-bottom: 4px; }
 .ab-name { font-weight: 500; color: var(--text); }
+
+.items { padding: 0 12px 8px; display: flex; flex-direction: column; gap: 4px; }
+.item { display: flex; align-items: baseline; gap: 5px; font-size: 11px; color: var(--muted); line-height: 1.5; padding: 5px 8px; background: rgba(255,255,255,.03); border-radius: 5px; }
+.item-icon { font-size: 10px; color: var(--dim); flex-shrink: 0; }
+.item-name { font-weight: 500; color: var(--text); flex-shrink: 0; }
+.item-desc { color: var(--muted); }
+
+.item-tome { flex-direction: column; align-items: stretch; gap: 5px; background: rgba(139,92,246,.07); border: 1px solid rgba(139,92,246,.2); }
+.tome-header { display: flex; align-items: center; gap: 6px; }
+.tome-icon { font-size: 12px; flex-shrink: 0; }
+.tome-label { font-size: 9px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: #a78bfa; flex-shrink: 0; }
+.tome-spell-name { font-size: 12px; font-weight: 600; color: #c4b5fd; }
+.tome-spell-desc { font-size: 11px; color: var(--muted); line-height: 1.5; padding-left: 18px; }
 
 /* Battle controls */
 .battle-ctrl { padding: 10px 12px 12px; border-top: 1px solid var(--border); background: rgba(0,0,0,.2); }

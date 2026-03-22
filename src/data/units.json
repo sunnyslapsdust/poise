@@ -143,7 +143,7 @@
       "abilities": [
         { "traitId": "undead" }
       ],
-      "_blocks": { "experience": "veteran", "armour": "heavy_armour", "weapon": "heavy_weapon", "spellSlots": "none" }
+      "_blocks": { "experience": "veteran", "armour": "full_armour", "weapon": "heavy_weapon", "spellSlots": "none" }
     },
     {
       "id": "harpy", "faction": "monster",
@@ -222,14 +222,19 @@
     },
     {
       "id": "lich", "faction": "monster",
-      "name": "Lich", "role": "Spellcaster / Boss",
-      "weapon": "Wand",
+      "name": "Lich", "role": "Spellcaster",
+      "weapon": "Death Touch",
       "specials": [],
+      "items": [
+        { "itemId": "anchor" },
+        { "itemId": "tome_soul_drain" }
+      ],
       "abilities": [
         { "traitId": "spellcaster" },
-        { "traitId": "old" }
+        { "traitId": "old" },
+        { "traitId": "undead"}
       ],
-      "_blocks": { "experience": "master", "armour": "heavy_armour", "weapon": "light_weapon", "spellSlots": "three" }
+      "_blocks": { "experience": "master", "armour": "heavy_armour", "weapon": "heavy_weapon", "spellSlots": "three" }
     },
     {
       "id": "bondsman", "faction": "merchant",
@@ -305,7 +310,7 @@
   },
 
   "traits": {
-    "undead":         { "name": "Undead",         "desc": "Does not regenerate Poise.", "pr": -4 },
+    "undead":         { "name": "Undead",         "desc": "Hardy but slow. +1 Max Poise, but -1 to Poise Recovery and Movement", "pr": -1, "mp":1, "mov":-1 },
     "perfect_poise":  { "name": "Perfect Poise",  "desc": "Recover 1 Current Poise after every action if not Hit." },
     "hardy":          { "name": "Hardy",          "desc": "+1 Max Poise from tough constitution.", "mp": 1 },
     "flight":         { "name": "Flight",         "desc": "May move to any elevation within 4 units. Disengage from melee freely for 2 Current Poise." },
@@ -317,13 +322,30 @@
 
   },
 
-  "items": {},
+  "items": {
+    "anchor":    { "name": "Anchor Amulet",        "desc": "Prevents the swap spell from working on this unit." },
+    "ring_regen":{ "name": "Ring of Regeneration", "desc": "+2 Poise Recovery" },
+
+    "tome_soul_drain": { "name": "Tome of Soul Drain", "type": "tome", "spellId": "soul_drain" },
+    "tome_darkness":   { "name": "Tome of Darkness",   "type": "tome", "spellId": "darkness"   },
+    "tome_hunger":     { "name": "Tome of Hunger",     "type": "tome", "spellId": "hunger"      },
+    "tome_curse":      { "name": "Tome of the Curse",  "type": "tome", "spellId": "curse"       },
+    "tome_unknown":    { "name": "Tome of ???",         "type": "tome", "spellId": "unknown"     }
+  },
+
+  "tomeSpells": [
+    { "id": "soul_drain", "name": "Soul Drain",  "desc": "Whenever a unit is Knocked Out within 6 units of the Lich, the Lich immediately recovers 4 CP. No action required." },
+    { "id": "darkness",   "name": "Darkness",    "desc": "The Lich permanently shrouds a 6-unit zone centred on themselves. All attacks into or out of the zone are made at -1 die tier. The zone moves with the Lich." },
+    { "id": "hunger",     "name": "Hunger",      "desc": "At the start of each of the Lich's turns, the unit with the lowest current CP within 6 units loses 2 additional CP. No action required." },
+    { "id": "curse",      "name": "Curse",        "desc": "Mark one unit. Each time the Lich is Hit, the marked unit loses 1 MP permanently." },
+    { "id": "unknown",    "name": "???",           "desc": "The pages are blank. Something stirs within." }
+  ],
 
   "spells": [
     { "id": "fog",    "name": "Fog",    "school": "Control",    "target": 4, "effect": "Place a 4-unit fog zone. Blocks line of sight. Lasts for 3 turns" },
     { "id": "bind",   "name": "Bind",   "school": "Control",    "target": 5, "effect": "Target cannot move, attack, or be attacked until their next turn. Units in melee with them may leave freely." },
     { "id": "push",   "name": "Push",   "school": "Control",    "target": 5, "effect": "Knock a target 2 units in any direction. If they hit terrain or a unit they take a Poise Shred." },
-    { "id": "swap",   "name": "Swap",   "school": "Control",    "target": 6, "effect": "Two units within range swap positions instantly." },
+    { "id": "swap",   "name": "Swap",   "school": "Control",    "target": 8, "effect": "Two units within line of sight of the caster swap positions instantly." },
     { "id": "expose", "name": "Expose", "school": "Disruption", "target": 6, "effect": "Target's Current Poise counts as half for being hit this turn." },
     { "id": "rust",   "name": "Rust",   "school": "Disruption", "target": 4, "effect": "Target's weapon damage is reduced by 1 until the start of their next turn." },
     { "id": "rally",  "name": "Rally",  "school": "Support",    "target": 3, "effect": "One ally recovers Poise equal to the wizard's Poise Recovery." },
