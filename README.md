@@ -7,6 +7,7 @@ Built with Vite + Vue 3 + Pinia.
 ```bash
 npm install
 npm run dev
+npx vite
 ```
 
 Open http://localhost:5173 in your browser.
