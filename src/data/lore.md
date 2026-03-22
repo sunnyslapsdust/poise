@@ -16,6 +16,9 @@ Placeholder — describe the Falcons here.
 
 Placeholder — describe the Lions here.
 
+## The North
+The Wild Frontier. Ungoverned. Dense forest giving way to open moorland. Bandit clans, displaced soldiers, minor lords with no real allegiance. The Lion Kingdom and the Order both raid it for mercenaries and neither wants to pay to pacify it. 
+
 ## The Monsters
 
 Placeholder — describe the monsters and their origins here.

@@ -4,12 +4,14 @@
     <!-- Top bar -->
     <header class="top-bar">
       <span class="app-title">Poise</span>
-      <div class="mode-pills">
-        <button class="mode-btn" :class="{ active: tab === 'browse' }"  @click="tab = 'browse'">Browse</button>
-        <button class="mode-btn" :class="{ active: tab === 'battle' }"  @click="tab = 'battle'">Battle</button>
-        <button class="mode-btn" :class="{ active: tab === 'create' }"  @click="tab = 'create'">Create</button>
-        <button class="mode-btn" :class="{ active: tab === 'rules' }"   @click="tab = 'rules'">Rules</button>
-        <button class="mode-btn" :class="{ active: tab === 'lore' }"    @click="tab = 'lore'">Lore</button>
+      <div class="pills-wrap" :class="{ 'fade-left': canScrollLeft, 'fade-right': canScrollRight }">
+        <div class="mode-pills" ref="pillsRef" @scroll="onPillsScroll">
+          <button class="mode-btn" :class="{ active: tab === 'browse' }"  @click="tab = 'browse'">Browse</button>
+          <button class="mode-btn" :class="{ active: tab === 'battle' }"  @click="tab = 'battle'">Battle</button>
+          <button class="mode-btn" :class="{ active: tab === 'create' }"  @click="tab = 'create'">Create</button>
+          <button class="mode-btn" :class="{ active: tab === 'rules' }"   @click="tab = 'rules'">Rules</button>
+          <button class="mode-btn" :class="{ active: tab === 'lore' }"    @click="tab = 'lore'">Lore</button>
+        </div>
       </div>
       <button v-if="tab === 'battle' && battle.roster.length" class="reset-btn" @click="battle.resetAll()">Reset</button>
       <div v-else class="reset-placeholder"></div>
@@ -71,7 +73,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useBattleStore }  from './stores/battle'
 import { useCreatorStore } from './stores/creator'
 import { FACTIONS }        from './data/units'
@@ -85,6 +87,19 @@ import LorePage         from './components/LorePage.vue'
 const battle  = useBattleStore()
 const creator = useCreatorStore()
 const tab     = ref('browse')
+
+const pillsRef      = ref(null)
+const canScrollLeft  = ref(false)
+const canScrollRight = ref(false)
+
+function onPillsScroll() {
+  const el = pillsRef.value
+  if (!el) return
+  canScrollLeft.value  = el.scrollLeft > 0
+  canScrollRight.value = el.scrollLeft + el.clientWidth < el.scrollWidth - 1
+}
+
+onMounted(() => onPillsScroll())
 
 // All factions in display order
 const ALL_FACTION_IDS = Object.keys(FACTIONS)
@@ -125,11 +140,30 @@ const battleFactionIds = computed(() =>
   background: var(--bg); flex-shrink: 0; gap: 8px;
 }
 .app-title { font-family: var(--font-display); font-size: 16px; letter-spacing: .2em; color: var(--muted); }
-.mode-pills { display: flex; gap: 4px; }
+.pills-wrap { position: relative; flex: 1; min-width: 0; }
+.pills-wrap::before,
+.pills-wrap::after {
+  content: ''; position: absolute; top: 0; bottom: 0; width: 24px;
+  pointer-events: none; z-index: 1;
+  transition: opacity .15s;
+  opacity: 0;
+}
+.pills-wrap::before { left: 0;  background: linear-gradient(to right, var(--bg), transparent); }
+.pills-wrap::after  { right: 0; background: linear-gradient(to left,  var(--bg), transparent); }
+.pills-wrap.fade-left::before  { opacity: 1; }
+.pills-wrap.fade-right::after  { opacity: 1; }
+
+.mode-pills {
+  display: flex; gap: 4px;
+  overflow-x: auto; -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.mode-pills::-webkit-scrollbar { display: none; }
 .mode-btn {
   font-size: 11px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase;
   padding: 5px 10px; border-radius: 6px; border: 1px solid var(--border);
   background: transparent; color: var(--muted); transition: all .15s;
+  flex-shrink: 0;
 }
 .mode-btn.active { background: var(--surface2); color: var(--text); border-color: var(--border2); }
 .reset-btn {
