@@ -208,7 +208,7 @@
       "abilities": [
         { "traitId": "spellcaster" }
       ],
-      "_blocks": { "experience": "veteran", "armour": "heavy_armour", "weapon": "improvised", "spellSlots": "three" }
+      "_blocks": { "experience": "veteran", "armour": "heavy_armour", "weapon": "light_weapon", "spellSlots": "three" }
     },
     {
       "id": "necromancer", "faction": "monster",
@@ -227,7 +227,7 @@
       "specials": [],
       "items": [
         { "itemId": "anchor" },
-        { "itemId": "tome_soul_drain" }
+        { "randomFrom": ["tome_soul_drain", "tome_darkness", "tome_hunger", "tome_curse", "tome_unknown"] }
       ],
       "abilities": [
         { "traitId": "spellcaster" },
@@ -235,6 +235,15 @@
         { "traitId": "undead"}
       ],
       "_blocks": { "experience": "master", "armour": "heavy_armour", "weapon": "heavy_weapon", "spellSlots": "three" }
+    },
+    {
+      "id": "cultist", "faction": "monster",
+      "name": "Cultist", "role": "Light Melee",
+      "weapon": "Ceremonial Dagger",
+      "specials": [],
+      "abilities": [
+      ],
+      "_blocks": { "experience": "greenhorn", "armour": "light_armour", "weapon": "normal_weapon"}
     },
     {
       "id": "bondsman", "faction": "merchant",
@@ -310,7 +319,7 @@
   },
 
   "traits": {
-    "undead":         { "name": "Undead",         "desc": "Hardy but slow. +1 Max Poise, but -1 to Poise Recovery and Movement", "pr": -1, "mp":1, "mov":-1 },
+    "undead":         { "name": "Undead",         "desc": "Hardy but slow. +1 Max Poise, but -1 to Poise Recovery and -1 to Movement", "pr": -1, "mp":1, "mov":-1 },
     "perfect_poise":  { "name": "Perfect Poise",  "desc": "Recover 1 Current Poise after every action if not Hit." },
     "hardy":          { "name": "Hardy",          "desc": "+1 Max Poise from tough constitution.", "mp": 1 },
     "flight":         { "name": "Flight",         "desc": "May move to any elevation within 4 units. Disengage from melee freely for 2 Current Poise." },
@@ -337,22 +346,22 @@
     { "id": "soul_drain", "name": "Soul Drain",  "desc": "Whenever a unit is Knocked Out within 6 units of the Lich, the Lich immediately recovers 4 CP. No action required." },
     { "id": "darkness",   "name": "Darkness",    "desc": "The Lich permanently shrouds a 6-unit zone centred on themselves. All attacks into or out of the zone are made at -1 die tier. The zone moves with the Lich." },
     { "id": "hunger",     "name": "Hunger",      "desc": "At the start of each of the Lich's turns, the unit with the lowest current CP within 6 units loses 2 additional CP. No action required." },
-    { "id": "curse",      "name": "Curse",        "desc": "Mark one unit. Each time the Lich is Hit, the marked unit loses 1 MP permanently." },
+    { "id": "curse",      "name": "Curse",        "desc": "Mark one unit. Each time the Lich is Hit, the marked unit loses 1 MP permanently. No action required" },
     { "id": "unknown",    "name": "???",           "desc": "The pages are blank. Something stirs within." }
   ],
 
   "spells": [
     { "id": "fog",    "name": "Fog",    "school": "Control",    "target": 4, "effect": "Place a 4-unit fog zone. Blocks line of sight. Lasts for 3 turns" },
-    { "id": "bind",   "name": "Bind",   "school": "Control",    "target": 5, "effect": "Target cannot move, attack, or be attacked until their next turn. Units in melee with them may leave freely." },
-    { "id": "push",   "name": "Push",   "school": "Control",    "target": 5, "effect": "Knock a target 2 units in any direction. If they hit terrain or a unit they take a Poise Shred." },
-    { "id": "swap",   "name": "Swap",   "school": "Control",    "target": 8, "effect": "Two units within line of sight of the caster swap positions instantly." },
-    { "id": "expose", "name": "Expose", "school": "Disruption", "target": 6, "effect": "Target's Current Poise counts as half for being hit this turn." },
+    { "id": "bind",   "name": "Bind",   "school": "Control",    "target": 4, "effect": "Target cannot move, attack, or be attacked until their next turn. Units in melee with them may leave freely." },
+    { "id": "push",   "name": "Push",   "school": "Control",    "target": 2, "effect": "Knock a target 2 units in any direction. If they hit terrain or a unit they take a Poise Shred of 1 CP." },
+    { "id": "swap",   "name": "Swap",   "school": "Control",    "target": 5, "effect": "Two units within line of sight of the caster swap positions instantly." },
+    { "id": "expose", "name": "Expose", "school": "Disruption", "target": 5, "effect": "Target's Current Poise counts as half for being hit this turn." },
     { "id": "rust",   "name": "Rust",   "school": "Disruption", "target": 4, "effect": "Target's weapon damage is reduced by 1 until the start of their next turn." },
     { "id": "rally",  "name": "Rally",  "school": "Support",    "target": 3, "effect": "One ally recovers Poise equal to the wizard's Poise Recovery." },
     { "id": "ward",   "name": "Ward",   "school": "Support",    "target": 3, "effect": "One ally cannot be targeted by ranged attacks until they move or attack." },
     { "id": "haste",  "name": "Haste",  "school": "Support",    "target": 5, "effect": "One ally may move again after attacking this turn." },
-    { "id": "bramble", "name": "Brambles", "school": "Control", "target": 3, "effect": "Target's movement reduced to 1 until end of their next turn.", "restrictedTo":["hedge_mage"] },
+    { "id": "bramble", "name": "Brambles", "school": "Control", "target": 2, "effect": "Target's movement reduced to 1 until end of their next turn.", "restrictedTo":["hedge_mage"] },
      { "id": "presense", "name": "Presence", "school": "Support", "target": 4, "effect": "Enemies within 3 units of a target friendly must spend 1 extra CP on any action directed at that unit this turn.", "restrictedTo":["court_wizard"] },
-     { "id": "raise", "name": "Raise", "school": "Control", "target": 4, "effect": "When a unit is knocked out within 6 units of the Necromancer, they may spend 4 CP to raise that unit as a Skeleton.", "restrictedTo":["necromancer"] }
+     { "id": "raise", "name": "Raise", "school": "Control", "target": 5, "effect": "When a unit is knocked out within 6 units of the Necromancer, they may spend 4 CP to raise that unit as a Skeleton.", "restrictedTo":["necromancer","lich"],"cost":4 }
   ]
 }

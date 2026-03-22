@@ -51,11 +51,21 @@ export const useBattleStore = defineStore('battle', () => {
     return Array.from({ length: count }, () => ({ spellId: null, failed: false }))
   }
 
+  function _resolveItems(items = []) {
+    return items.map(it => {
+      if (it.randomFrom?.length) {
+        return { itemId: it.randomFrom[Math.floor(Math.random() * it.randomFrom.length)] }
+      }
+      return it
+    })
+  }
+
   function addUnit(unit) {
     const iid = unit.id + '-' + (++_uid)
     roster.value.push({ iid, unitId: unit.id })
     poise.value[iid] = {
       cur: unit.mp, max: unit.mp, origMax: unit.mp,
+      items: _resolveItems(unit.items),
       ...(unit.isWizard ? {
         spellSlots: _emptySlots(unit.spellSlots ?? 3),
         concentrations: {},
@@ -101,6 +111,10 @@ export const useBattleStore = defineStore('battle', () => {
 
   // ── Spell actions ───────────────────────────────────────────────────────
 
+  function getItems(iid) {
+    return poise.value[iid]?.items ?? []
+  }
+
   function getSpellSlots(iid) {
     return poise.value[iid]?.spellSlots ?? []
   }
@@ -108,17 +122,18 @@ export const useBattleStore = defineStore('battle', () => {
   function canAttemptSpell(iid, spellId) {
     const s = poise.value[iid]
     if (!s?.spellSlots) return false
-    const spell    = SPELLS.find(sp => sp.id === spellId)
-    const unitId   = roster.value.find(r => r.iid === iid)?.unitId
-    // Restricted spells: auto-granted to listed units, unavailable to all others
+    const spell  = SPELLS.find(sp => sp.id === spellId)
+    const unitId = roster.value.find(r => r.iid === iid)?.unitId
+    const cost = spell?.cost ?? 2
+    // Innate spells (restrictedTo this unit): no slot needed, just needs CP
     if (spell?.restrictedTo) {
-      if (!spell.restrictedTo.includes(unitId)) return false
-    } else {
-      // Non-restricted spells: check explicit grant or school filter
-      const isGranted = s.grantedSpells?.includes(spellId)
-      if (!isGranted && s.allowedSpellSchools) {
-        if (spell && !s.allowedSpellSchools.includes(spell.school)) return false
-      }
+      return spell.restrictedTo.includes(unitId) && s.cur >= cost
+    }
+    // Non-restricted spells: check explicit grant or school filter
+    if (s.cur < cost) return false
+    const isGranted = s.grantedSpells?.includes(spellId)
+    if (!isGranted && s.allowedSpellSchools) {
+      if (spell && !s.allowedSpellSchools.includes(spell.school)) return false
     }
     if (s.spellSlots.some(sl => sl.spellId === spellId)) return true
     return s.spellSlots.filter(sl => sl.spellId !== null).length < s.spellSlots.length
@@ -137,27 +152,32 @@ export const useBattleStore = defineStore('battle', () => {
 
   // Returns { success, roll, effectiveTN }
   function attemptSpell(iid, spellId) {
-    const s = poise.value[iid]
-    const conc = s.concentrations?.[spellId] ?? 0
-    const die  = dieForMP(s.cur)
-    const roll  = Math.floor(Math.random() * die.sides) + 1
-    const spell = SPELLS.find(sp => sp.id === spellId)
+    const s      = poise.value[iid]
+    const unitId = roster.value.find(r => r.iid === iid)?.unitId
+    const conc   = s.concentrations?.[spellId] ?? 0
+    const die    = dieForMP(s.cur)
+    const roll   = Math.floor(Math.random() * die.sides) + 1
+    const spell  = SPELLS.find(sp => sp.id === spellId)
     const effectiveTN = Math.max(1, spell.target - conc)
     const success = roll >= effectiveTN
 
-    const existingSlot = s.spellSlots.find(sl => sl.spellId === spellId)
-    if (!existingSlot) {
-      const emptySlot = s.spellSlots.find(sl => sl.spellId === null)
-      if (emptySlot) { emptySlot.spellId = spellId; emptySlot.failed = !success }
-    } else if (success) {
-      existingSlot.failed = false
+    // Innate spells don't occupy a slot
+    const isInnate = spell?.restrictedTo?.includes(unitId)
+    if (!isInnate) {
+      const existingSlot = s.spellSlots.find(sl => sl.spellId === spellId)
+      if (!existingSlot) {
+        const emptySlot = s.spellSlots.find(sl => sl.spellId === null)
+        if (emptySlot) { emptySlot.spellId = spellId; emptySlot.failed = !success }
+      } else if (success) {
+        existingSlot.failed = false
+      }
     }
 
     // Reset concentration for this spell after casting
     if (!s.concentrations) s.concentrations = {}
     s.concentrations[spellId] = 0
 
-    setCur(iid, s.cur - 2)
+    setCur(iid, s.cur - (spell?.cost ?? 2))
     return { success, roll, effectiveTN }
   }
 
@@ -169,6 +189,6 @@ export const useBattleStore = defineStore('battle', () => {
     roster, poise, names, collapsed, toasts,
     getPoiseState, getName, getDie, getPoiseColor, getBarPct, getStatus,
     addUnit, removeUnit, setMax, setCur, resetUnit, resetAll, toggleCollapsed,
-    getSpellSlots, canAttemptSpell, getConcentration, concentrate, attemptSpell,
+    getItems, getSpellSlots, canAttemptSpell, getConcentration, concentrate, attemptSpell,
   }
 })

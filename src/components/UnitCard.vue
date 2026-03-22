@@ -123,8 +123,8 @@
       </div>
 
       <!-- Items -->
-      <div v-if="unit.items?.length" class="items">
-        <template v-for="(it, i) in unit.items" :key="i">
+      <div v-if="resolvedItems.length" class="items">
+        <template v-for="(it, i) in resolvedItems" :key="i">
           <!-- Tome -->
           <div v-if="resolveItem(it).type === 'tome'" class="item item-tome">
             <div class="tome-header">
@@ -149,6 +149,10 @@
         <!-- Slot indicators -->
         <div class="spell-slots-row">
           <div
+            v-for="spell in innateSpells" :key="spell.id"
+            class="spell-slot-chip slot-innate"
+          >{{ spell.name }}</div>
+          <div
             v-for="(slot, i) in spellSlots" :key="i"
             class="spell-slot-chip"
             :class="{ 'slot-filled': slot.spellId && !slot.failed, 'slot-failed': slot.spellId && slot.failed, 'slot-empty': !slot.spellId }"
@@ -162,6 +166,7 @@
             <div class="cast-panel-title">
               <span class="cast-spell-name">{{ selectedSpell.name }}</span>
               <span class="cast-tn-badge">TN {{ selectedSpell.target }}</span>
+              <span class="cast-cost-badge">{{ selectedSpell.cost ?? 2 }} CP</span>
             </div>
             <button class="cast-close-btn" @click="closeCastPanel">×</button>
           </div>
@@ -174,7 +179,7 @@
                 <span class="cast-big-num" :style="{ color: castNumColor }">{{ castDisplay }}</span>
                 <span class="cast-sub-lbl">{{ castLbl }}</span>
               </div>
-              <button class="cast-roll-btn" @click="rollSpell" :disabled="spellRolling" :style="{ borderColor: color + '55', color }">
+              <button class="cast-roll-btn" @click="rollSpell" :disabled="spellRolling || ps.cur < (selectedSpell.cost ?? 2)" :style="{ borderColor: color + '55', color }">
                 Cast
               </button>
             </div>
@@ -187,14 +192,16 @@
         <!-- Spell list -->
         <div class="spell-list">
           <div
-            v-for="spell in SPELLS" :key="spell.id"
+            v-for="spell in availableSpells" :key="spell.id"
             class="spell-item"
             :class="spellItemClasses(spell)"
             @click="selectSpell(spell)"
           >
             <div class="spell-item-top">
               <span class="spell-item-name">{{ spell.name }}</span>
-              <span class="spell-school-tag">{{ spell.school }}</span>
+              <span v-if="spell.restrictedTo?.includes(unit.id)" class="spell-innate-tag">Innate</span>
+              <span v-else class="spell-school-tag">{{ spell.school }}</span>
+              <span class="spell-item-cost">{{ spell.cost ?? 2 }} CP</span>
               <span class="spell-item-tn">{{ spell.target }}</span>
             </div>
             <div class="spell-item-effect">{{ spell.effect }}</div>
@@ -359,9 +366,17 @@ const spellRolling  = ref(false)
 const spellRawRoll  = ref(null)
 const spellResult   = ref(null)   // { success, roll, effectiveTN }
 
+const resolvedItems     = computed(() => store.getItems(props.iid))
 const spellSlots        = computed(() => store.getSpellSlots(props.iid))
 const spellDie          = computed(() => dieForMP(ps.value.cur))
 const spellById         = computed(() => Object.fromEntries(SPELLS.map(s => [s.id, s])))
+const innateSpells      = computed(() =>
+  SPELLS.filter(s => s.restrictedTo?.includes(props.unit.id))
+)
+const availableSpells   = computed(() => [
+  ...innateSpells.value,
+  ...SPELLS.filter(s => !s.restrictedTo),
+])
 const spellConcentration = computed(() =>
   selectedSpell.value ? store.getConcentration(props.iid, selectedSpell.value.id) : 0
 )
@@ -386,12 +401,14 @@ const castNumColor = computed(() => {
 })
 
 function spellItemClasses(spell) {
-  const inSlot = spellSlots.value.find(sl => sl.spellId === spell.id)
+  const inSlot  = spellSlots.value.find(sl => sl.spellId === spell.id)
+  const isInnate = !!spell.restrictedTo?.includes(props.unit.id)
   return {
     'spell-slotted':     !!inSlot && !inSlot.failed,
     'spell-slot-failed': !!inSlot && inSlot.failed,
     'spell-selected':    selectedSpell.value?.id === spell.id,
     'spell-disabled':    !store.canAttemptSpell(props.iid, spell.id),
+    'spell-innate':      isInnate,
   }
 }
 
@@ -552,13 +569,15 @@ function rollSpell() {
 .slot-empty  { color: var(--dim); }
 .slot-failed { color: var(--dim); border-style: dashed; }
 .slot-filled { background: rgba(255,255,255,.04); }
+.slot-innate { border-color: rgba(251,191,36,.3); color: #fbbf24; background: rgba(251,191,36,.06); }
 
 /* Cast panel */
 .cast-panel { background: var(--surface2); border-radius: 8px; padding: 10px; margin-bottom: 10px; }
 .cast-panel-hdr { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
 .cast-panel-title { display: flex; align-items: center; gap: 8px; }
 .cast-spell-name { font-family: var(--font-display); font-size: 15px; letter-spacing: .05em; }
-.cast-tn-badge { font-size: 10px; font-weight: 600; letter-spacing: .1em; padding: 2px 7px; border-radius: 4px; background: rgba(255,255,255,.06); color: var(--muted); }
+.cast-tn-badge   { font-size: 10px; font-weight: 600; letter-spacing: .1em; padding: 2px 7px; border-radius: 4px; background: rgba(255,255,255,.06); color: var(--muted); }
+.cast-cost-badge { font-size: 10px; font-weight: 600; letter-spacing: .1em; padding: 2px 7px; border-radius: 4px; background: rgba(255,255,255,.06); color: var(--dim); }
 .cast-close-btn { width: 24px; height: 24px; border-radius: 5px; border: 1px solid transparent; background: transparent; color: var(--dim); font-size: 16px; display: flex; align-items: center; justify-content: center; }
 .cast-close-btn:hover { color: var(--muted); }
 
@@ -585,13 +604,16 @@ function rollSpell() {
 .spell-item-top { display: flex; align-items: center; gap: 6px; margin-bottom: 4px; }
 .spell-item-name { font-size: 12px; font-weight: 600; flex: 1; }
 .spell-school-tag { font-size: 9px; font-weight: 500; padding: 2px 6px; border-radius: 4px; background: rgba(255,255,255,.05); color: var(--muted); border: 1px solid rgba(255,255,255,.06); letter-spacing: .05em; }
-.spell-item-tn { font-size: 10px; color: var(--dim); font-weight: 600; min-width: 20px; text-align: right; }
+.spell-item-cost { font-size: 9px; color: var(--dim); font-weight: 500; }
+.spell-item-tn   { font-size: 10px; color: var(--dim); font-weight: 600; min-width: 20px; text-align: right; }
 .spell-item-effect { font-size: 10px; color: var(--muted); line-height: 1.45; }
 
 .spell-slotted     { border-color: v-bind("color + '55'"); background: v-bind("color + '10'"); }
 .spell-slot-failed { border-color: rgba(255,255,255,.06); opacity: .6; }
 .spell-selected    { border-color: v-bind("color + '88'"); background: v-bind("color + '15'"); }
 .spell-disabled    { opacity: .35; cursor: default; }
+.spell-innate      { border-color: rgba(251,191,36,.2); background: rgba(251,191,36,.04); }
+.spell-innate-tag  { font-size: 9px; font-weight: 600; letter-spacing: .1em; padding: 2px 6px; border-radius: 4px; background: rgba(251,191,36,.1); color: #fbbf24; border: 1px solid rgba(251,191,36,.2); }
 
 /* Status badge (stunned) */
 .status-badge { position: absolute; top: 8px; right: 40px; font-size: 9px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; padding: 3px 7px; border-radius: 4px; }
