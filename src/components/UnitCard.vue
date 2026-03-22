@@ -344,6 +344,7 @@ const diceLbl = computed(() => {
 function handleRoll() {
   if (rolling.value) return
   const savedBoost = boost.value
+  const rollDie = die.value  // capture before CP is deducted
   boost.value = 0
   boostApplied.value = 0   // keep 0 during animation so raw values show
   store.setCur(props.iid, ps.value.cur - (props.unit.attackCost ?? 2))
@@ -351,7 +352,7 @@ function handleRoll() {
   rawRoll.value = null
   let n = 0
   const iv = setInterval(() => {
-    rawRoll.value = Math.floor(Math.random() * die.value.sides) + 1
+    rawRoll.value = Math.floor(Math.random() * rollDie.sides) + 1
     if (++n >= 3) {
       clearInterval(iv)
       boostApplied.value = savedBoost  // set in same tick as rawRoll → atomic render
@@ -436,12 +437,13 @@ function doConcentrate() {
 
 function rollSpell() {
   if (spellRolling.value || !selectedSpell.value) return
+  const castDie = spellDie.value  // capture before CP is deducted inside attemptSpell
   spellRolling.value = true
   spellRawRoll.value = null
   spellResult.value  = null
   let n = 0
   const iv = setInterval(() => {
-    spellRawRoll.value = Math.floor(Math.random() * spellDie.value.sides) + 1
+    spellRawRoll.value = Math.floor(Math.random() * castDie.sides) + 1
     if (++n >= 3) {
       clearInterval(iv)
       const result = store.attemptSpell(props.iid, selectedSpell.value.id)

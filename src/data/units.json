@@ -43,6 +43,13 @@
       "abilities": [],
       "_blocks": { "experience": "novice", "armour": "light_armour", "weapon": "normal_weapon", "spellSlots": "none" }
     },
+    {
+      "id": "ranger", "faction": "falcon",
+      "name": "Falcon Ranger", "role": "Heavy Ranged",
+      "specials": [],
+      "abilities": [],
+      "_blocks": { "experience": "experienced", "armour": "light_armour", "weapon": "heavy_bow", "spellSlots": "none" }
+    },
 
 
     {
@@ -120,12 +127,13 @@
     {
       "id": "vampire", "faction": "monster",
       "name": "Vampire", "role": "Hero / Undead",
-      "specials": ["Undead", "Perfect Poise"],
+      "specials": ["Undead", "Perfect Poise","Flight"],
       "abilities": [
         { "traitId": "undead" },
-        { "traitId": "perfect_poise" }
+        { "traitId": "perfect_poise" },
+        { "traitId": "spellcaster"}
       ],
-      "_blocks": { "experience": "master", "armour": "unarmoured", "weapon": "normal_weapon", "spellSlots": "none" }
+      "_blocks": { "experience": "master", "armour": "unarmoured", "weapon": "normal_weapon", "spellSlots": "one" }
     },
     {
       "id": "skeleton", "faction": "monster",
@@ -138,7 +146,7 @@
     },
     {
       "id": "skeleton_champion", "faction": "monster",
-      "name": "Skeletal Champion", "role": "Champion / Undead",
+      "name": "Skeletal Champion", "role": "Hero / Undead",
       "specials": ["Undead"],
       "abilities": [
         { "traitId": "undead" }
