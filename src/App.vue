@@ -8,6 +8,8 @@
         <button class="mode-btn" :class="{ active: tab === 'browse' }"  @click="tab = 'browse'">Browse</button>
         <button class="mode-btn" :class="{ active: tab === 'battle' }"  @click="tab = 'battle'">Battle</button>
         <button class="mode-btn" :class="{ active: tab === 'create' }"  @click="tab = 'create'">Create</button>
+        <button class="mode-btn" :class="{ active: tab === 'rules' }"   @click="tab = 'rules'">Rules</button>
+        <button class="mode-btn" :class="{ active: tab === 'lore' }"    @click="tab = 'lore'">Lore</button>
       </div>
       <button v-if="tab === 'battle' && battle.roster.length" class="reset-btn" @click="battle.resetAll()">Reset</button>
       <div v-else class="reset-placeholder"></div>
@@ -53,9 +55,15 @@
     </main>
 
     <!-- ── Create: unit creator ───────────────────────────────────────────── -->
-    <div v-else class="creator-wrap">
+    <div v-else-if="tab === 'create'" class="creator-wrap">
       <UnitCreatorPage />
     </div>
+
+    <!-- ── Rules ──────────────────────────────────────────────────────────── -->
+    <RulesPage v-else-if="tab === 'rules'" />
+
+    <!-- ── Lore ───────────────────────────────────────────────────────────── -->
+    <LorePage v-else-if="tab === 'lore'" />
 
     <ToastContainer />
 
@@ -71,6 +79,8 @@ import BrowseCard       from './components/BrowseCard.vue'
 import UnitCard         from './components/UnitCard.vue'
 import ToastContainer   from './components/ToastContainer.vue'
 import UnitCreatorPage  from './components/UnitCreatorPage.vue'
+import RulesPage        from './components/RulesPage.vue'
+import LorePage         from './components/LorePage.vue'
 
 const battle  = useBattleStore()
 const creator = useCreatorStore()
