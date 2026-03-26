@@ -40,6 +40,16 @@
       "_blocks": { "experience": "veteran", "armour": "full_armour", "weapon": "light_weapon", "spellSlots": "3" }
     },
     {
+      "id": "scribe", "faction": "falcon",
+      "name": "Falcon Scribe", "role": "Spellcaster",
+      "weapon": "Training Staff",
+      "specials": [],
+      "abilities": [
+        { "traitId": "spellcaster" }
+      ],
+      "_blocks": { "experience": "novice", "armour": "partial_armour", "weapon": "light_weapon", "spellSlots": "2" }
+    },
+    {
       "id": "vanguard", "faction": "falcon",
       "name": "Falcon Vanguard", "role": "Heavy Melee",
       "specials": [],
