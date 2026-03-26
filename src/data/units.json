@@ -37,7 +37,7 @@
       "abilities": [
         { "traitId": "spellcaster" }
       ],
-      "_blocks": { "experience": "veteran", "armour": "full_armour", "weapon": "light_weapon", "spellSlots": "3" }
+      "_blocks": { "experience": "veteran", "armour": "full_armour", "weapon": "light_weapon", "spellSlots": "three" }
     },
     {
       "id": "scribe", "faction": "falcon",
@@ -47,7 +47,7 @@
       "abilities": [
         { "traitId": "spellcaster" }
       ],
-      "_blocks": { "experience": "novice", "armour": "partial_armour", "weapon": "light_weapon", "spellSlots": "2" }
+      "_blocks": { "experience": "novice", "armour": "partial_armour", "weapon": "light_weapon", "spellSlots": "two" }
     },
     {
       "id": "vanguard", "faction": "falcon",
