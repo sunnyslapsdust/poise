@@ -226,6 +226,15 @@
       "abilities": [],
       "_blocks": { "experience": "novice", "armour": "light_armour", "weapon": "normal_weapon", "spellSlots": "none" }
     },
+    {
+      "id": "knight_errant", "faction": "unaffiliated",
+      "name": "Knight Errant", "role": "Heavy Melee",
+      "specials": [],
+      "abilities": [
+        {"traitId":"knight_training"}
+      ],
+      "_blocks": { "experience": "experienced", "armour": "full_armour", "weapon": "normal_weapon", "spellSlots": "none" }
+    },
 
 
     {
@@ -356,7 +365,10 @@
     "ranged_parry":   { "name": "Ranged Parry",   "desc": "Once per turn, deflect a successful ranged attack for free." },
     "old":            { "name": "Old",            "desc": "+2 Max Poise. Moves at half speed.", "mp": 2, "mov": -2 },
     "guild_training": { "name": "Guild Training", "desc": "+1 Movement and +1 Max Poise from professional guild training.", "mp": 1, "mov": 1 },
-    "assassination":  { "name": "Assassination",  "desc": "Attack costs 4 Current Poise instead of 2. Damage is doubled against Max Poise hits." }
+    "assassination":  { "name": "Assassination",  "desc": "Attack costs 4 Current Poise instead of 2. Damage is doubled against Max Poise hits." },
+    "heavy_momentum": { "name": "Heavy Momentum", "desc": "On a Hit, target is knocked back by 4 units and movement is reduced by 2 units for one turn"},
+    "roar":           { "name": "Roar", "desc": "[Current Poise Cost: 3] A d6 against Current Poise is rolled against all units in a 3 unit radius, if Current poise is lower, the unit's Current Poise is shredded by 2."},
+    "knight_training":{ "name": "Knight Training", "desc": "+1 Max Poise from formal training in armored fighting", "pr":1}
 
   },
 
