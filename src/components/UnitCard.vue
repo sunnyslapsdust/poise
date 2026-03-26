@@ -22,8 +22,22 @@
       <div class="row-left">
         <span class="row-unit-type">{{ unit.name }}</span>
         <div class="row-sub">
-          
-          <span class="row-unit-name">{{ store.getName(iid) }}</span>
+          <span
+            v-if="!editingName"
+            class="row-unit-name"
+            @click.stop="startEditName"
+            title="Click to rename"
+          >{{ store.getName(iid) }}</span>
+          <input
+            v-else
+            ref="nameInputRef"
+            class="row-unit-name-input"
+            v-model="nameInput"
+            @blur="saveName"
+            @keyup.enter="saveName"
+            @keyup.esc="editingName = false"
+            @click.stop
+          />
         </div>
       </div>
       <div class="row-stats">
@@ -251,7 +265,7 @@
 </template>
 
 <script setup>
-import { computed, ref, watch } from 'vue'
+import { computed, nextTick, ref, watch } from 'vue'
 import { useBattleStore } from '../stores/battle'
 import { FACTIONS, SPELLS, dieForMP, resolveAbility, resolveItem } from '../data/units'
 
@@ -269,6 +283,23 @@ const status   = computed(() => store.getStatus(props.iid))
 // KO overlay — shown when KO, dismissed by user until unit is KO'd again
 const koOverlay = ref(status.value === 'ko')
 watch(status, s => { if (s === 'ko') koOverlay.value = true })
+
+// ── Inline name editing ───────────────────────────────────────────────────
+const editingName  = ref(false)
+const nameInput    = ref('')
+const nameInputRef = ref(null)
+
+function startEditName(e) {
+  e.stopPropagation()
+  nameInput.value   = store.getName(props.iid)
+  editingName.value = true
+  nextTick(() => nameInputRef.value?.select())
+}
+function saveName() {
+  const trimmed = nameInput.value.trim()
+  if (trimmed) store.setName(props.iid, trimmed)
+  editingName.value = false
+}
 
 // ── Roll-up animation (height: auto → 0) ─────────────────────────────────
 function onBeforeEnter(el) {
@@ -481,7 +512,8 @@ function rollSpell() {
 .row-sub { display: flex; align-items: center; gap: 5px; min-width: 0; }
 .row-unit-role { font-size: 10px; color: var(--muted); letter-spacing: .04em; white-space: nowrap; flex-shrink: 0; }
 .row-sub-sep { font-size: 9px; color: var(--dim); flex-shrink: 0; }
-.row-unit-name { font-size: 10px; color: var(--dim); letter-spacing: .04em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.row-unit-name { font-size: 10px; color: var(--dim); letter-spacing: .04em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; cursor: text; }
+.row-unit-name-input { font-size: 10px; color: var(--dim); letter-spacing: .04em; background: transparent; border: none; border-bottom: 1px solid var(--dim); outline: none; min-width: 0; width: 8em; padding: 0; font-family: inherit; }
 
 .row-stats { display: flex; gap: 5px; align-items: center; flex-shrink: 0; }
 .rs { display: flex; flex-direction: column; align-items: center; min-width: 32px; }

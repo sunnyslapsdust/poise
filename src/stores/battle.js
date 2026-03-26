@@ -1,8 +1,10 @@
 // src/stores/battle.js
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { dieForMP, poiseColor, SPELLS } from '../data/units'
 import { generateSingleName } from '../data/names'
+
+const STORAGE_KEY = 'poise-battle-state'
 
 export const useBattleStore = defineStore('battle', () => {
 
@@ -15,6 +17,34 @@ export const useBattleStore = defineStore('battle', () => {
   const poise     = ref({})
   const names     = ref({})
   const collapsed = ref({})
+
+  // ── Load persisted battle state ────────────────────────────────────────
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY)
+    if (saved) {
+      const data = JSON.parse(saved)
+      roster.value    = data.roster    ?? []
+      poise.value     = data.poise     ?? {}
+      names.value     = data.names     ?? {}
+      collapsed.value = data.collapsed ?? {}
+      // Ensure _uid is higher than any restored iid suffix to avoid collisions
+      _uid = Math.max(0, ...roster.value.map(r => {
+        const parts = r.iid.split('-')
+        return parseInt(parts[parts.length - 1]) || 0
+      }))
+    }
+  } catch {}
+
+  function _saveState() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({
+      roster:    roster.value,
+      poise:     poise.value,
+      names:     names.value,
+      collapsed: collapsed.value,
+    }))
+  }
+
+  watch([roster, poise, names], _saveState, { deep: true })
 
   // ── Toasts ─────────────────────────────────────────────────────────────
   const toasts = ref([])
@@ -85,6 +115,10 @@ export const useBattleStore = defineStore('battle', () => {
     delete poise.value[iid]
     delete names.value[iid]
     delete collapsed.value[iid]
+  }
+
+  function setName(iid, name) {
+    names.value[iid] = name
   }
 
   function toggleCollapsed(iid) {
@@ -188,7 +222,7 @@ export const useBattleStore = defineStore('battle', () => {
   return {
     roster, poise, names, collapsed, toasts,
     getPoiseState, getName, getDie, getPoiseColor, getBarPct, getStatus,
-    addUnit, removeUnit, setMax, setCur, resetUnit, resetAll, toggleCollapsed,
+    addUnit, removeUnit, setName, setMax, setCur, resetUnit, resetAll, toggleCollapsed,
     getItems, getSpellSlots, canAttemptSpell, getConcentration, concentrate, attemptSpell,
   }
 })
