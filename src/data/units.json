@@ -30,6 +30,16 @@
       "_blocks": { "experience": "master", "armour": "partial_armour", "weapon": "normal_weapon", "spellSlots": "none" }
     },
     {
+      "id": "archivist", "faction": "falcon",
+      "name": "Falcon Archivist", "role": "Spellcaster",
+      "weapon": "Staff",
+      "specials": [],
+      "abilities": [
+        { "traitId": "spellcaster" }
+      ],
+      "_blocks": { "experience": "veteran", "armour": "full_armour", "weapon": "light_weapon", "spellSlots": "3" }
+    },
+    {
       "id": "vanguard", "faction": "falcon",
       "name": "Falcon Vanguard", "role": "Heavy Melee",
       "specials": [],
@@ -209,7 +219,7 @@
 
 
     {
-      "id": "court_wizard", "faction": "falcon",
+      "id": "court_wizard", "faction": "lion",
       "name": "Court Wizard", "role": "Spellcaster",
       "weapon": "Staff",
       "specials": [],
@@ -235,6 +245,7 @@
       "specials": [],
       "items": [
         { "itemId": "anchor" },
+        { "itemId": "ring_regen"},
         { "randomFrom": ["tome_soul_drain", "tome_darkness", "tome_hunger", "tome_curse", "tome_unknown"] }
       ],
       "abilities": [
