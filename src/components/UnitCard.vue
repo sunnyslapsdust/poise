@@ -20,7 +20,7 @@
     <!-- ── Header row (click to collapse/expand) ── -->
     <div class="card-row" @click="store.toggleCollapsed(iid)">
       <div class="row-left">
-        <span class="row-unit-type">{{ unit.name }}</span>
+        
         <div class="row-sub">
           <span
             v-if="!editingName"
@@ -39,6 +39,7 @@
             @click.stop
           />
         </div>
+        <span class="row-unit-type">{{ unit.name }}</span>
       </div>
       <div class="row-stats">
         <div class="rs">
@@ -508,12 +509,12 @@ function rollSpell() {
 .card-row:hover { background: rgba(255,255,255,.02); }
 
 .row-left { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1px; }
-.row-unit-type { font-family: var(--font-display); font-size: 18px; letter-spacing: .04em; line-height: 1.1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.row-unit-type { color: var(--muted); font-size: 10px; letter-spacing: .04em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .row-sub { display: flex; align-items: center; gap: 5px; min-width: 0; }
 .row-unit-role { font-size: 10px; color: var(--muted); letter-spacing: .04em; white-space: nowrap; flex-shrink: 0; }
 .row-sub-sep { font-size: 9px; color: var(--dim); flex-shrink: 0; }
-.row-unit-name { font-size: 10px; color: var(--muted); letter-spacing: .04em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; cursor: text; }
-.row-unit-name-input { font-size: 10px; color: var(--muted); letter-spacing: .04em; background: transparent; border: none; border-bottom: 1px solid var(--dim); outline: none; min-width: 0; width: 8em; padding: 0; font-family: inherit; }
+.row-unit-name { font-size: 18px; font-family: var(--font-display); letter-spacing: .04em; line-height: 1.1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; cursor: text; }
+.row-unit-name-input { font-size: 18px; font-family: var(--font-display); letter-spacing: .04em; line-height: 1.1; background: transparent; border: none; border-bottom: 1px solid var(--dim); outline: none; min-width: 0; width: 8em; padding: 0; font-family: inherit; }
 
 .row-stats { display: flex; gap: 5px; align-items: center; flex-shrink: 0; }
 .rs { display: flex; flex-direction: column; align-items: center; min-width: 32px; }

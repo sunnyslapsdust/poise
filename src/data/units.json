@@ -1,9 +1,7 @@
 {
   "factions": {
     "falcon": {
-      "id": "falcon",
-      "label": "The Order of the Black Falcons",
-      "color": "#60a5fa"
+      "id": "falcon", "label": "The Order of the Black Falcons", "color": "#60a5fa"
     },
     "lion": {
       "id": "lion",
@@ -638,17 +636,9 @@
       }
     ],
     "armour": [
-      {
-        "id": "unarmoured",
-        "label": "Unarmoured"
-      },
-      {
-        "id": "light_armour",
-        "label": "Light Armour",
-        "mp": 1
-      },
-      {
-        "id": "partial_armour",
+      {"id": "unarmoured","label": "Unarmoured" },
+      {"id": "light_armour","label": "Light Armour","mp": 1},
+      {"id": "partial_armour",
         "label": "Partial Armour",
         "mp": 2,
         "pr": -1
@@ -808,7 +798,7 @@
     },
     "knight_training": {
       "name": "Knight Training",
-      "desc": "+1 Max Poise from formal training in armored fighting",
+      "desc": "+1 Poise Recovery from formal training in armored fighting",
       "pr": 1
     }
   },
