@@ -1,408 +1,974 @@
 {
   "factions": {
-    "falcon":       { "id": "falcon",       "label": "The Order of the Black Falcons", "color": "#60a5fa" },
-    "lion":         { "id": "lion",         "label": "The Lion Kingdom",  "color": "#fbbf24" },
-    "monster":      { "id": "monster",      "label": "Monsters",      "color": "#c084fc" },
-    "unaffiliated": { "id": "unaffiliated", "label": "Unaffiliated",  "color": "#766352" },
-    "forestmen":    { "id": "forestmen",    "label": "Forestmen",     "color": "#4ade80" },
-    "viking":       { "id": "viking",       "label": "Vikings",       "color": "#fb923c" },
-    "merchant":     { "id": "merchant",     "label": "Merchant Houses", "color": "#b45309" }
+    "falcon": {
+      "id": "falcon",
+      "label": "The Order of the Black Falcons",
+      "color": "#60a5fa"
+    },
+    "lion": {
+      "id": "lion",
+      "label": "The Lion Kingdom",
+      "color": "#fbbf24"
+    },
+    "monster": {
+      "id": "monster",
+      "label": "Monsters",
+      "color": "#c084fc"
+    },
+    "unaffiliated": {
+      "id": "unaffiliated",
+      "label": "Unaffiliated",
+      "color": "#766352"
+    },
+    "forestmen": {
+      "id": "forestmen",
+      "label": "Forestmen",
+      "color": "#4ade80"
+    },
+    "viking": {
+      "id": "viking",
+      "label": "Vikings",
+      "color": "#fb923c"
+    },
+    "merchant": {
+      "id": "merchant",
+      "label": "Merchant Houses",
+      "color": "#b45309"
+    }
   },
   "units": [
-
-
     {
-      "id": "paragon", "faction": "falcon",
-      "name": "Falcon Paragon", "role": "Elite Melee",
-      "specials": [],
-      "abilities": [],
-      "_blocks": { "experience": "veteran", "armour": "heavy_armour", "weapon": "heavy_weapon", "spellSlots": "none" }
-    },
-    {
-      "id": "grandmaster", "faction": "falcon",
-      "name": "Falcon Grandmaster", "role": "Hero",
-      "specials": ["Perfect Poise", "Ranged Parry", "Old"],
+      "id": "paragon",
+      "faction": "falcon",
+      "name": "Falcon Paragon",
+      "role": "Elite Melee",
       "abilities": [
-        { "traitId": "perfect_poise" },
-        { "traitId": "ranged_parry" },
-        { "traitId": "old" }
+        {"traitId": "knight_training"}
       ],
-      "_blocks": { "experience": "master", "armour": "partial_armour", "weapon": "normal_weapon", "spellSlots": "none" }
+      "_blocks": {
+        "experience": "veteran", "armour": "heavy_armour",
+        "weapon": "heavy_weapon",
+        "spellSlots": "none"
+      }
     },
     {
-      "id": "archivist", "faction": "falcon",
-      "name": "Falcon Archivist", "role": "Spellcaster",
+      "id": "grandmaster",
+      "faction": "falcon",
+      "name": "Falcon Grandmaster",
+      "role": "Hero",
+      "abilities": [
+        {
+          "traitId": "perfect_poise"
+        },
+        {
+          "traitId": "ranged_parry"
+        },
+        {
+          "traitId": "old"
+        }
+      ],
+      "_blocks": {
+        "experience": "master",
+        "armour": "partial_armour",
+        "weapon": "normal_weapon",
+        "spellSlots": "none"
+      }
+    },
+    {
+      "id": "archivist",
+      "faction": "falcon",
+      "name": "Falcon Archivist",
+      "role": "Spellcaster",
       "weapon": "Staff",
-      "specials": [],
       "abilities": [
-        { "traitId": "spellcaster" }
+        {
+          "traitId": "spellcaster"
+        }
       ],
-      "_blocks": { "experience": "veteran", "armour": "full_armour", "weapon": "light_weapon", "spellSlots": "three" }
+      "_blocks": {
+        "experience": "veteran",
+        "armour": "full_armour",
+        "weapon": "light_weapon",
+        "spellSlots": "three"
+      }
     },
     {
-      "id": "scribe", "faction": "falcon",
-      "name": "Falcon Scribe", "role": "Spellcaster",
+      "id": "scribe",
+      "faction": "falcon",
+      "name": "Falcon Scribe",
+      "role": "Spellcaster",
       "weapon": "Training Staff",
-      "specials": [],
       "abilities": [
-        { "traitId": "spellcaster" }
+        {
+          "traitId": "spellcaster"
+        }
       ],
-      "_blocks": { "experience": "novice", "armour": "partial_armour", "weapon": "light_weapon", "spellSlots": "two" }
+      "_blocks": {
+        "experience": "novice",
+        "armour": "partial_armour",
+        "weapon": "light_weapon",
+        "spellSlots": "two"
+      }
     },
     {
-      "id": "vanguard", "faction": "falcon",
-      "name": "Falcon Vanguard", "role": "Heavy Melee",
-      "specials": [],
+      "id": "vanguard",
+      "faction": "falcon",
+      "name": "Falcon Vanguard",
+      "role": "Heavy Melee",
       "abilities": [],
-      "_blocks": { "experience": "experienced", "armour": "full_armour", "weapon": "heavy_weapon", "spellSlots": "none" }
+      "_blocks": {
+        "experience": "experienced",
+        "armour": "full_armour",
+        "weapon": "heavy_weapon",
+        "spellSlots": "none"
+      }
     },
     {
-      "id": "militia", "faction": "falcon",
-      "name": "Falcon Militia", "role": "Light Melee",
-      "specials": [],
+      "id": "militia",
+      "faction": "falcon",
+      "name": "Falcon Militia",
+      "role": "Light Melee",
       "abilities": [],
-      "_blocks": { "experience": "novice", "armour": "light_armour", "weapon": "normal_weapon", "spellSlots": "none" }
+      "_blocks": {
+        "experience": "novice",
+        "armour": "light_armour",
+        "weapon": "normal_weapon",
+        "spellSlots": "none"
+      }
     },
     {
-      "id": "ranger", "faction": "falcon",
-      "name": "Falcon Ranger", "role": "Heavy Ranged",
-      "specials": [],
+      "id": "ranger",
+      "faction": "falcon",
+      "name": "Falcon Ranger",
+      "role": "Heavy Ranged",
       "abilities": [],
-      "_blocks": { "experience": "experienced", "armour": "light_armour", "weapon": "heavy_bow", "spellSlots": "none" }
+      "_blocks": {
+        "experience": "experienced",
+        "armour": "light_armour",
+        "weapon": "heavy_bow",
+        "spellSlots": "none"
+      }
     },
-
-
     {
-      "id": "captain", "faction": "lion",
-      "name": "Lion Captain", "role": "Commander",
-      "specials": [],
+      "id": "captain",
+      "faction": "lion",
+      "name": "Lion Captain",
+      "role": "Commander",
       "abilities": [],
-      "_blocks": { "experience": "veteran", "armour": "partial_armour", "weapon": "normal_weapon", "spellSlots": "none" }
+      "_blocks": {
+        "experience": "veteran",
+        "armour": "partial_armour",
+        "weapon": "normal_weapon",
+        "spellSlots": "none"
+      }
     },
     {
-      "id": "footman", "faction": "lion",
-      "name": "Lion Footman", "role": "Line Infantry",
-      "specials": [],
+      "id": "footman",
+      "faction": "lion",
+      "name": "Lion Footman",
+      "role": "Line Infantry",
       "abilities": [],
-      "_blocks": { "experience": "greenhorn", "armour": "partial_armour", "weapon": "normal_weapon", "spellSlots": "none" }
+      "_blocks": {
+        "experience": "greenhorn",
+        "armour": "partial_armour",
+        "weapon": "normal_weapon",
+        "spellSlots": "none"
+      }
     },
     {
-      "id": "guard", "faction": "lion",
-      "name": "Town Guard", "role": "Line Infantry",
-      "specials": [],
+      "id": "guard",
+      "faction": "lion",
+      "name": "Town Guard",
+      "role": "Line Infantry",
       "abilities": [],
-      "_blocks": { "experience": "greenhorn", "armour": "light_armour", "weapon": "normal_weapon", "spellSlots": "none" }
+      "_blocks": {
+        "experience": "greenhorn",
+        "armour": "light_armour",
+        "weapon": "normal_weapon",
+        "spellSlots": "none"
+      }
     },
     {
-      "id": "crossbow", "faction": "lion",
-      "name": "Lion Crossbowman", "role": "Ranged",
-      "specials": [],
+      "id": "crossbow",
+      "faction": "lion",
+      "name": "Lion Crossbowman",
+      "role": "Ranged",
       "abilities": [],
-      "_blocks": { "experience": "novice", "armour": "light_armour", "weapon": "heavy_crossbow", "spellSlots": "none" }
+      "_blocks": {
+        "experience": "novice",
+        "armour": "light_armour",
+        "weapon": "heavy_crossbow",
+        "spellSlots": "none"
+      }
     },
     {
-      "id": "lion_heavy_archer", "faction": "lion",
-      "name": "Lion Heavy Archer", "role": "Heavy Ranged",
-      "specials": [],
+      "id": "lion_heavy_archer",
+      "faction": "lion",
+      "name": "Lion Heavy Archer",
+      "role": "Heavy Ranged",
       "abilities": [],
-      "_blocks": { "experience": "experienced", "armour": "partial_armour", "weapon": "heavy_bow", "spellSlots": "none" }
+      "_blocks": {
+        "experience": "experienced",
+        "armour": "partial_armour",
+        "weapon": "heavy_bow",
+        "spellSlots": "none"
+      }
     },
-
-
     {
-      "id": "forestmen_leader", "faction": "forestmen",
-      "name": "Forestmen Leader", "role": "Commander",
-      "specials": [],
+      "id": "forestmen_leader",
+      "faction": "forestmen",
+      "name": "Forestmen Leader",
+      "role": "Commander",
       "abilities": [],
-      "_blocks": { "experience": "experienced", "armour": "partial_armour", "weapon": "normal_weapon", "spellSlots": "none" }
+      "_blocks": {
+        "experience": "experienced",
+        "armour": "partial_armour",
+        "weapon": "normal_weapon",
+        "spellSlots": "none"
+      }
     },
     {
-      "id": "forestmen_archer", "faction": "forestmen",
-      "name": "Forestmen Archer", "role": "Ranged Skirmisher",
-      "specials": [],
+      "id": "forestmen_archer",
+      "faction": "forestmen",
+      "name": "Forestmen Archer",
+      "role": "Ranged Skirmisher",
       "abilities": [],
-      "_blocks": { "experience": "novice", "armour": "light_armour", "weapon": "bow", "spellSlots": "none" }
+      "_blocks": {
+        "experience": "novice",
+        "armour": "light_armour",
+        "weapon": "bow",
+        "spellSlots": "none"
+      }
     },
-
     {
-      "id": "berserker", "faction": "viking",
-      "name": "Viking Berserker", "role": "Heavy Melee",
-      "specials": ["Hardy"],
+      "id": "berserker",
+      "faction": "viking",
+      "name": "Viking Berserker",
+      "role": "Heavy Melee",
       "abilities": [
-        { "traitId": "hardy" }
+        {
+          "traitId": "hardy"
+        }
       ],
-      "_blocks": { "experience": "experienced", "armour": "light_armour", "weapon": "heavy_weapon", "spellSlots": "none" }
+      "_blocks": {
+        "experience": "experienced",
+        "armour": "light_armour",
+        "weapon": "heavy_weapon",
+        "spellSlots": "none"
+      }
     },
     {
-      "id": "huscarl", "faction": "viking",
-      "name": "Viking Huscarl", "role": "Melee",
-      "specials": ["Hardy"],
+      "id": "huscarl",
+      "faction": "viking",
+      "name": "Viking Huscarl",
+      "role": "Melee",
       "abilities": [
-        { "traitId": "hardy" }
+        {
+          "traitId": "hardy"
+        }
       ],
-      "_blocks": { "experience": "experienced", "armour": "light_armour", "weapon": "heavy_weapon", "spellSlots": "none" }
+      "_blocks": {
+        "experience": "experienced",
+        "armour": "light_armour",
+        "weapon": "heavy_weapon",
+        "spellSlots": "none"
+      }
     },
-
-
     {
-      "id": "vampire", "faction": "monster",
-      "name": "Vampire", "role": "Hero / Undead",
-      "specials": ["Undead", "Perfect Poise","Flight"],
+      "id": "vampire",
+      "faction": "monster",
+      "name": "Vampire",
+      "role": "Hero / Undead",
       "abilities": [
-        { "traitId": "undead" },
-        { "traitId": "perfect_poise" },
-        { "traitId": "spellcaster"}
+        {
+          "traitId": "undead"
+        },
+        {
+          "traitId": "perfect_poise"
+        },
+        {
+          "traitId": "spellcaster"
+        }
       ],
-      "_blocks": { "experience": "master", "armour": "unarmoured", "weapon": "normal_weapon", "spellSlots": "one" }
+      "_blocks": {
+        "experience": "master",
+        "armour": "unarmoured",
+        "weapon": "normal_weapon",
+        "spellSlots": "one"
+      }
     },
     {
-      "id": "skeleton", "faction": "monster",
-      "name": "Skeleton", "role": "Undead",
-      "specials": ["Undead"],
+      "id": "skeleton",
+      "faction": "monster",
+      "name": "Skeleton",
+      "role": "Undead",
       "abilities": [
-        { "traitId": "undead" }
+        {
+          "traitId": "undead"
+        }
       ],
-      "_blocks": { "experience": "novice", "armour": "unarmoured", "weapon": "normal_weapon", "spellSlots": "none" }
+      "_blocks": {
+        "experience": "novice",
+        "armour": "unarmoured",
+        "weapon": "normal_weapon",
+        "spellSlots": "none"
+      }
     },
     {
-      "id": "skeleton_champion", "faction": "monster",
-      "name": "Skeletal Champion", "role": "Hero / Undead",
-      "specials": ["Undead"],
+      "id": "skeleton_champion",
+      "faction": "monster",
+      "name": "Skeletal Champion",
+      "role": "Hero / Undead",
       "abilities": [
-        { "traitId": "undead" }
+        {
+          "traitId": "undead"
+        }
       ],
-      "_blocks": { "experience": "veteran", "armour": "full_armour", "weapon": "heavy_weapon", "spellSlots": "none" }
+      "_blocks": {
+        "experience": "veteran",
+        "armour": "full_armour",
+        "weapon": "heavy_weapon",
+        "spellSlots": "none"
+      }
     },
     {
-      "id": "harpy", "faction": "monster",
-      "name": "Harpy", "role": "Flying Skirmisher",
+      "id": "harpy",
+      "faction": "monster",
+      "name": "Harpy",
+      "role": "Flying Skirmisher",
       "weapon": "Claws",
-      "specials": ["Flight"],
       "abilities": [
-        { "traitId": "flight" }
+        {
+          "traitId": "flight"
+        }
       ],
-      "_blocks": { "experience": "experienced", "armour": "unarmoured", "weapon": "normal_weapon", "spellSlots": "none" }
+      "_blocks": {
+        "experience": "experienced",
+        "armour": "unarmoured",
+        "weapon": "normal_weapon",
+        "spellSlots": "none"
+      }
     },
-
     {
-      "id": "rabble", "faction": "unaffiliated",
-      "name": "Peasant Rabble", "role": "Mob",
-      "specials": [],
+      "id": "rabble",
+      "faction": "unaffiliated",
+      "name": "Peasant Rabble",
+      "role": "Mob",
       "abilities": [],
-      "_blocks": { "experience": "greenhorn", "armour": "unarmoured", "weapon": "improvised", "spellSlots": "none" }
+      "_blocks": {
+        "experience": "greenhorn",
+        "armour": "unarmoured",
+        "weapon": "improvised",
+        "spellSlots": "none"
+      }
     },
     {
-      "id": "outlaw", "faction": "unaffiliated",
-      "name": "Outlaw", "role": "Light Melee",
-      "specials": [],
+      "id": "outlaw",
+      "faction": "unaffiliated",
+      "name": "Outlaw",
+      "role": "Light Melee",
       "abilities": [],
-      "_blocks": { "experience": "greenhorn", "armour": "unarmoured", "weapon": "light_weapon", "spellSlots": "none" }
+      "_blocks": {
+        "experience": "greenhorn",
+        "armour": "unarmoured",
+        "weapon": "light_weapon",
+        "spellSlots": "none"
+      }
     },
     {
-      "id": "hunter", "faction": "unaffiliated",
-      "name": "Hunter", "role": "Ranged Skirmisher",
-      "specials": [],
+      "id": "hunter",
+      "faction": "unaffiliated",
+      "name": "Hunter",
+      "role": "Ranged Skirmisher",
       "abilities": [],
-      "_blocks": { "experience": "novice", "armour": "light_armour", "weapon": "bow", "spellSlots": "none" }
+      "_blocks": {
+        "experience": "novice",
+        "armour": "light_armour",
+        "weapon": "bow",
+        "spellSlots": "none"
+      }
     },
     {
-      "id": "sellsword_merc", "faction": "unaffiliated",
-      "name": "Mercenary Sellsword", "role": "Melee",
-      "specials": [],
+      "id": "sellsword_merc",
+      "faction": "unaffiliated",
+      "name": "Mercenary Sellsword",
+      "role": "Melee",
       "abilities": [],
-      "_blocks": { "experience": "experienced", "armour": "partial_armour", "weapon": "normal_weapon", "spellSlots": "none" }
+      "_blocks": {
+        "experience": "experienced",
+        "armour": "partial_armour",
+        "weapon": "normal_weapon",
+        "spellSlots": "none"
+      }
     },
     {
-      "id": "merc_archer", "faction": "unaffiliated",
-      "name": "Mercenary Heavy Archer", "role": "Ranged",
-      "specials": [],
+      "id": "merc_archer",
+      "faction": "unaffiliated",
+      "name": "Mercenary Heavy Archer",
+      "role": "Ranged",
       "abilities": [],
-      "_blocks": { "experience": "experienced", "armour": "partial_armour", "weapon": "heavy_bow", "spellSlots": "none" }
+      "_blocks": {
+        "experience": "experienced",
+        "armour": "partial_armour",
+        "weapon": "heavy_bow",
+        "spellSlots": "none"
+      }
     },
     {
-      "id": "bandit", "faction": "unaffiliated",
-      "name": "Bandit", "role": "Light Melee",
-      "specials": [],
+      "id": "bandit",
+      "faction": "unaffiliated",
+      "name": "Bandit",
+      "role": "Light Melee",
       "abilities": [],
-      "_blocks": { "experience": "novice", "armour": "light_armour", "weapon": "normal_weapon", "spellSlots": "none" }
+      "_blocks": {
+        "experience": "novice",
+        "armour": "light_armour",
+        "weapon": "normal_weapon",
+        "spellSlots": "none"
+      }
     },
     {
-      "id": "knight_errant", "faction": "unaffiliated",
-      "name": "Knight Errant", "role": "Heavy Melee",
-      "specials": [],
+      "id": "knight_errant",
+      "faction": "unaffiliated",
+      "name": "Knight Errant",
+      "role": "Heavy Melee",
       "abilities": [
-        {"traitId":"knight_training"}
+        {
+          "traitId": "knight_training"
+        }
       ],
-      "_blocks": { "experience": "experienced", "armour": "full_armour", "weapon": "normal_weapon", "spellSlots": "none" }
+      "_blocks": {
+        "experience": "experienced",
+        "armour": "full_armour",
+        "weapon": "normal_weapon",
+        "spellSlots": "none"
+      }
     },
-
-
     {
-      "id": "court_wizard", "faction": "lion",
-      "name": "Court Wizard", "role": "Spellcaster",
+      "id": "court_wizard",
+      "faction": "lion",
+      "name": "Court Wizard",
+      "role": "Spellcaster",
       "weapon": "Staff",
-      "specials": [],
       "abilities": [
-        { "traitId": "spellcaster" }
+        {
+          "traitId": "spellcaster"
+        }
       ],
-      "_blocks": { "experience": "veteran", "armour": "heavy_armour", "weapon": "light_weapon", "spellSlots": "three" }
+      "_blocks": {
+        "experience": "veteran",
+        "armour": "heavy_armour",
+        "weapon": "light_weapon",
+        "spellSlots": "three"
+      }
     },
     {
-      "id": "necromancer", "faction": "monster",
-      "name": "Necromancer", "role": "Spellcaster",
+      "id": "necromancer",
+      "faction": "monster",
+      "name": "Necromancer",
+      "role": "Spellcaster",
       "weapon": "Bone Staff",
-      "specials": [],
       "abilities": [
-        { "traitId": "spellcaster" }
+        {
+          "traitId": "spellcaster"
+        }
       ],
-      "_blocks": { "experience": "veteran", "armour": "partial_armour", "weapon": "light_weapon", "spellSlots": "three" }
+      "_blocks": {
+        "experience": "veteran",
+        "armour": "partial_armour",
+        "weapon": "light_weapon",
+        "spellSlots": "three"
+      }
     },
     {
-      "id": "lich", "faction": "monster",
-      "name": "Lich", "role": "Spellcaster",
+      "id": "lich",
+      "faction": "monster",
+      "name": "Lich",
+      "role": "Spellcaster",
       "weapon": "Death Touch",
-      "specials": [],
       "items": [
-        { "itemId": "anchor" },
-        { "itemId": "ring_regen"},
-        { "randomFrom": ["tome_soul_drain", "tome_darkness", "tome_hunger", "tome_curse", "tome_unknown"] }
+        {
+          "itemId": "anchor"
+        },
+        {
+          "itemId": "ring_regen"
+        },
+        {
+          "randomFrom": [
+            "tome_soul_drain",
+            "tome_darkness",
+            "tome_hunger",
+            "tome_curse",
+            "tome_unknown"
+          ]
+        }
       ],
       "abilities": [
-        { "traitId": "spellcaster" },
-        { "traitId": "old" },
-        { "traitId": "undead"}
+        {
+          "traitId": "spellcaster"
+        },
+        {
+          "traitId": "old"
+        },
+        {
+          "traitId": "undead"
+        }
       ],
-      "_blocks": { "experience": "master", "armour": "heavy_armour", "weapon": "heavy_weapon", "spellSlots": "three" }
+      "_blocks": {
+        "experience": "master",
+        "armour": "heavy_armour",
+        "weapon": "heavy_weapon",
+        "spellSlots": "three"
+      }
     },
     {
-      "id": "cultist", "faction": "monster",
-      "name": "Cultist", "role": "Light Melee",
+      "id": "cultist",
+      "faction": "monster",
+      "name": "Cultist",
+      "role": "Light Melee",
       "weapon": "Ceremonial Dagger",
-      "specials": [],
-      "abilities": [
-      ],
-      "_blocks": { "experience": "greenhorn", "armour": "light_armour", "weapon": "normal_weapon"}
-    },
-    {
-      "id": "bondsman", "faction": "merchant",
-      "name": "Bondsman", "role": "Heavy Infantry",
-      "specials": [],
       "abilities": [],
-      "_blocks": { "experience": "greenhorn", "armour": "full_armour", "weapon": "normal_weapon", "spellSlots": "none" }
+      "_blocks": {
+        "experience": "greenhorn",
+        "armour": "light_armour",
+        "weapon": "normal_weapon"
+      }
     },
     {
-      "id": "spellsword", "faction": "merchant",
-      "name": "Spellsword", "role": "Melee / Spellcaster",
-      "specials": [],
+      "id": "bondsman",
+      "faction": "merchant",
+      "name": "Bondsman",
+      "role": "Heavy Infantry",
+      "abilities": [],
+      "_blocks": {
+        "experience": "greenhorn",
+        "armour": "full_armour",
+        "weapon": "normal_weapon",
+        "spellSlots": "none"
+      }
+    },
+    {
+      "id": "spellsword",
+      "faction": "merchant",
+      "name": "Spellsword",
+      "role": "Melee / Spellcaster",
       "abilities": [
-        { "traitId": "spellcaster" }
+        {
+          "traitId": "spellcaster"
+        }
       ],
-      "_blocks": { "experience": "experienced", "armour": "partial_armour", "weapon": "normal_weapon", "spellSlots": "one" }
+      "_blocks": {
+        "experience": "experienced",
+        "armour": "partial_armour",
+        "weapon": "normal_weapon",
+        "spellSlots": "one"
+      }
     },
     {
-      "id": "guild_assassin", "faction": "merchant", "attackCost": 4,
-      "name": "Guild Assassin", "role": "Precision Striker",
-      "specials": ["Guild Training"],
+      "id": "guild_assassin",
+      "faction": "merchant",
+      "attackCost": 4,
+      "name": "Guild Assassin",
+      "role": "Precision Striker",
       "abilities": [
-        { "traitId": "guild_training" },
-        { "traitId": "assassination" }
+        {
+          "traitId": "guild_training"
+        },
+        {
+          "traitId": "assassination"
+        }
       ],
-      "_blocks": { "experience": "experienced", "armour": "light_armour", "weapon": "normal_weapon", "spellSlots": "none" }
+      "_blocks": {
+        "experience": "experienced",
+        "armour": "light_armour",
+        "weapon": "normal_weapon",
+        "spellSlots": "none"
+      }
     },
-
     {
-      "id": "hedge_mage", "faction": "unaffiliated",
-      "name": "Hedge Mage", "role": "Spellcaster",
+      "id": "hedge_mage",
+      "faction": "unaffiliated",
+      "name": "Hedge Mage",
+      "role": "Spellcaster",
       "weapon": "Dagger",
-      "specials": [],
       "abilities": [
-        { "traitId": "spellcaster" }
+        {
+          "traitId": "spellcaster"
+        }
       ],
-      "_blocks": { "experience": "experienced", "armour": "partial_armour", "weapon": "improvised", "spellSlots": "two" }
+      "_blocks": {
+        "experience": "experienced",
+        "armour": "partial_armour",
+        "weapon": "improvised",
+        "spellSlots": "two"
+      }
     }
   ],
-
   "buildingBlocks": {
-    "base": { "mp": 4, "pr": 4, "mov": 4, "dmg": 1 },
+    "base": {
+      "mp": 4,
+      "pr": 4,
+      "mov": 4,
+      "dmg": 1
+    },
     "experience": [
-      { "id": "greenhorn",   "label": "Greenhorn"   },
-      { "id": "novice",      "label": "Novice",      "mp": 1 },
-      { "id": "experienced", "label": "Experienced", "mp": 2 },
-      { "id": "veteran",     "label": "Veteran",     "mp": 3},
-      { "id": "master",      "label": "Master",      "mp": 4 }
+      {
+        "id": "greenhorn",
+        "label": "Greenhorn"
+      },
+      {
+        "id": "novice",
+        "label": "Novice",
+        "mp": 1
+      },
+      {
+        "id": "experienced",
+        "label": "Experienced",
+        "mp": 2
+      },
+      {
+        "id": "veteran",
+        "label": "Veteran",
+        "mp": 3
+      },
+      {
+        "id": "master",
+        "label": "Master",
+        "mp": 4
+      }
     ],
     "armour": [
-      { "id": "unarmoured",     "label": "Unarmoured" },
-      { "id": "light_armour",   "label": "Light Armour",  "mp": 1 },
-      { "id": "partial_armour", "label": "Partial Armour","mp": 2, "pr": -1 },
-      { "id": "full_armour",    "label": "Full Armour",   "mp": 3, "pr": -2, "mov": -1 },
-      { "id": "heavy_armour",   "label": "Heavy Armour",  "mp": 5, "pr": -2, "mov": -2 }
+      {
+        "id": "unarmoured",
+        "label": "Unarmoured"
+      },
+      {
+        "id": "light_armour",
+        "label": "Light Armour",
+        "mp": 1
+      },
+      {
+        "id": "partial_armour",
+        "label": "Partial Armour",
+        "mp": 2,
+        "pr": -1
+      },
+      {
+        "id": "full_armour",
+        "label": "Full Armour",
+        "mp": 3,
+        "pr": -2,
+        "mov": -1
+      },
+      {
+        "id": "heavy_armour",
+        "label": "Heavy Armour",
+        "mp": 5,
+        "pr": -2,
+        "mov": -2
+      }
     ],
     "weapon": [
-      { "id": "improvised",     "label": "Improvised",     "name": "Improvised Weapon", "wtype": "Melee" },
-      { "id": "light_weapon",   "label": "Light",          "name": "Light Weapon",      "wtype": "Melee",   "mp": 1 },
-      { "id": "normal_weapon",  "label": "Normal",         "name": "Normal Weapon",     "wtype": "Melee",   "dmg": 1 },
-      { "id": "heavy_weapon",   "label": "Heavy",          "name": "Heavy Weapon",      "wtype": "Melee",   "dmg": 2, "mp": -1 },
-      { "id": "bow",            "label": "Bow",            "name": "Bow",               "wtype": "Ranged",  "dmg": 1 },
-      { "id": "heavy_bow",      "label": "Heavy Bow",      "name": "Heavy Bow",         "wtype": "Ranged",  "dmg": 2, "mp": -1 },
-      { "id": "crossbow",       "label": "Crossbow",       "name": "Crossbow",          "wtype": "Ranged",  "dmg": 1 },
-      { "id": "heavy_crossbow", "label": "Heavy Crossbow", "name": "Heavy Crossbow",    "wtype": "Ranged",  "dmg": 2 }
+      {
+        "id": "improvised",
+        "label": "Improvised",
+        "name": "Improvised Weapon",
+        "wtype": "Melee"
+      },
+      {
+        "id": "light_weapon",
+        "label": "Light",
+        "name": "Light Weapon",
+        "wtype": "Melee",
+        "mp": 1
+      },
+      {
+        "id": "normal_weapon",
+        "label": "Normal",
+        "name": "Normal Weapon",
+        "wtype": "Melee",
+        "dmg": 1
+      },
+      {
+        "id": "heavy_weapon",
+        "label": "Heavy",
+        "name": "Heavy Weapon",
+        "wtype": "Melee",
+        "dmg": 2,
+        "mp": -1
+      },
+      {
+        "id": "bow",
+        "label": "Bow",
+        "name": "Bow",
+        "wtype": "Ranged",
+        "dmg": 1
+      },
+      {
+        "id": "heavy_bow",
+        "label": "Heavy Bow",
+        "name": "Heavy Bow",
+        "wtype": "Ranged",
+        "dmg": 2,
+        "mp": -1
+      },
+      {
+        "id": "crossbow",
+        "label": "Crossbow",
+        "name": "Crossbow",
+        "wtype": "Ranged",
+        "dmg": 1
+      },
+      {
+        "id": "heavy_crossbow",
+        "label": "Heavy Crossbow",
+        "name": "Heavy Crossbow",
+        "wtype": "Ranged",
+        "dmg": 2
+      }
     ],
     "spellSlots": [
-      { "id": "none",  "label": "None", "slots": 0 },
-      { "id": "one",   "label": "1",    "slots": 1, "mp": -2 },
-      { "id": "two",   "label": "2",    "slots": 2, "mp": -3 },
-      { "id": "three", "label": "3",    "slots": 3, "mp": -4 }
+      {
+        "id": "none",
+        "label": "None",
+        "slots": 0
+      },
+      {
+        "id": "one",
+        "label": "1",
+        "slots": 1,
+        "mp": -2
+      },
+      {
+        "id": "two",
+        "label": "2",
+        "slots": 2,
+        "mp": -3
+      },
+      {
+        "id": "three",
+        "label": "3",
+        "slots": 3,
+        "mp": -4
+      }
     ]
   },
-
   "traits": {
-    "undead":         { "name": "Undead",         "desc": "Hardy but slow. +1 Max Poise, but -1 to Poise Recovery and -1 to Movement", "pr": -1, "mp":1, "mov":-1 },
-    "perfect_poise":  { "name": "Perfect Poise",  "desc": "Recover 1 Current Poise after every action if not Hit." },
-    "hardy":          { "name": "Hardy",          "desc": "+1 Max Poise from tough constitution.", "mp": 1 },
-    "flight":         { "name": "Flight",         "desc": "May move to any elevation within 4 units. Disengage from melee freely for 2 Current Poise." },
-    "spellcaster":    { "name": "Spellcaster",    "desc": "May cast spells. Die size for casting is based on Current Poise." },
-    "ranged_parry":   { "name": "Ranged Parry",   "desc": "Once per turn, deflect a successful ranged attack for free." },
-    "old":            { "name": "Old",            "desc": "+2 Max Poise. Moves at half speed.", "mp": 2, "mov": -2 },
-    "guild_training": { "name": "Guild Training", "desc": "+1 Movement and +1 Max Poise from professional guild training.", "mp": 1, "mov": 1 },
-    "assassination":  { "name": "Assassination",  "desc": "Attack costs 4 Current Poise instead of 2. Damage is doubled against Max Poise hits." },
-    "heavy_momentum": { "name": "Heavy Momentum", "desc": "On a Hit, target is knocked back by 4 units and movement is reduced by 2 units for one turn"},
-    "roar":           { "name": "Roar", "desc": "[Current Poise Cost: 3] A d6 against Current Poise is rolled against all units in a 3 unit radius, if Current poise is lower, the unit's Current Poise is shredded by 2."},
-    "knight_training":{ "name": "Knight Training", "desc": "+1 Max Poise from formal training in armored fighting", "pr":1}
-
+    "undead": {
+      "name": "Undead",
+      "desc": "Hardy but slow. +1 Max Poise, but -1 to Poise Recovery and -1 to Movement",
+      "pr": -1,
+      "mp": 1,
+      "mov": -1
+    },
+    "perfect_poise": {
+      "name": "Perfect Poise",
+      "desc": "Recover 1 Current Poise after every action if not Hit."
+    },
+    "hardy": {
+      "name": "Hardy",
+      "desc": "+1 Max Poise from tough constitution.",
+      "mp": 1
+    },
+    "flight": {
+      "name": "Flight",
+      "desc": "May move to any elevation within 4 units. Disengage from melee freely for 2 Current Poise."
+    },
+    "spellcaster": {
+      "name": "Spellcaster",
+      "desc": "May cast spells. Die size for casting is based on Current Poise."
+    },
+    "ranged_parry": {
+      "name": "Ranged Parry",
+      "desc": "Once per turn, deflect a successful ranged attack for free."
+    },
+    "old": {
+      "name": "Old",
+      "desc": "+2 Max Poise. Moves at half speed.",
+      "mp": 2,
+      "mov": -2
+    },
+    "guild_training": {
+      "name": "Guild Training",
+      "desc": "+1 Movement and +1 Max Poise from professional guild training.",
+      "mp": 1,
+      "mov": 1
+    },
+    "assassination": {
+      "name": "Assassination",
+      "desc": "Attack costs 4 Current Poise instead of 2. Damage is doubled against Max Poise hits."
+    },
+    "heavy_momentum": {
+      "name": "Heavy Momentum",
+      "desc": "On a Hit, target is knocked back by 4 units and movement is reduced by 2 units for one turn"
+    },
+    "roar": {
+      "name": "Roar",
+      "desc": "[Current Poise Cost: 3] A d6 against Current Poise is rolled against all units in a 3 unit radius, if Current poise is lower, the unit's Current Poise is shredded by 2."
+    },
+    "knight_training": {
+      "name": "Knight Training",
+      "desc": "+1 Max Poise from formal training in armored fighting",
+      "pr": 1
+    }
   },
-
   "items": {
-    "anchor":    { "name": "Anchor Amulet",        "desc": "Prevents the swap spell from working on this unit." },
-    "ring_regen":{ "name": "Ring of Regeneration", "desc": "+2 Poise Recovery" },
-
-    "tome_soul_drain": { "name": "Tome of Soul Drain", "type": "tome", "spellId": "soul_drain" },
-    "tome_darkness":   { "name": "Tome of Darkness",   "type": "tome", "spellId": "darkness"   },
-    "tome_hunger":     { "name": "Tome of Hunger",     "type": "tome", "spellId": "hunger"      },
-    "tome_curse":      { "name": "Tome of the Curse",  "type": "tome", "spellId": "curse"       },
-    "tome_unknown":    { "name": "Tome of ???",         "type": "tome", "spellId": "unknown"     }
+    "anchor": {
+      "name": "Anchor Amulet",
+      "desc": "Prevents the swap spell from working on this unit."
+    },
+    "ring_regen": {
+      "name": "Ring of Regeneration",
+      "desc": "+2 Poise Recovery"
+    },
+    "tome_soul_drain": {
+      "name": "Tome of Soul Drain",
+      "type": "tome",
+      "spellId": "soul_drain"
+    },
+    "tome_darkness": {
+      "name": "Tome of Darkness",
+      "type": "tome",
+      "spellId": "darkness"
+    },
+    "tome_hunger": {
+      "name": "Tome of Hunger",
+      "type": "tome",
+      "spellId": "hunger"
+    },
+    "tome_curse": {
+      "name": "Tome of the Curse",
+      "type": "tome",
+      "spellId": "curse"
+    },
+    "tome_unknown": {
+      "name": "Tome of ???",
+      "type": "tome",
+      "spellId": "unknown"
+    }
   },
-
   "tomeSpells": [
-    { "id": "soul_drain", "name": "Soul Drain",  "desc": "Whenever a unit is Knocked Out within 6 units of the Lich, the Lich immediately recovers 4 CP. No action required." },
-    { "id": "darkness",   "name": "Darkness",    "desc": "The Lich permanently shrouds a 6-unit zone centred on themselves. All attacks into or out of the zone are made at -1 die tier. The zone moves with the Lich." },
-    { "id": "hunger",     "name": "Hunger",      "desc": "At the start of each of the Lich's turns, the unit with the lowest current CP within 6 units loses 2 additional CP. No action required." },
-    { "id": "curse",      "name": "Curse",        "desc": "Mark one unit. Each time the Lich is Hit, the marked unit loses 1 MP permanently. No action required" },
-    { "id": "unknown",    "name": "???",           "desc": "The pages are blank. Something stirs within." }
+    {
+      "id": "soul_drain",
+      "name": "Soul Drain",
+      "desc": "Whenever a unit is Knocked Out within 6 units of the Lich, the Lich immediately recovers 4 CP. No action required."
+    },
+    {
+      "id": "darkness",
+      "name": "Darkness",
+      "desc": "The Lich permanently shrouds a 6-unit zone centred on themselves. All attacks into or out of the zone are made at -1 die tier. The zone moves with the Lich."
+    },
+    {
+      "id": "hunger",
+      "name": "Hunger",
+      "desc": "At the start of each of the Lich's turns, the unit with the lowest current CP within 6 units loses 2 additional CP. No action required."
+    },
+    {
+      "id": "curse",
+      "name": "Curse",
+      "desc": "Mark one unit. Each time the Lich is Hit, the marked unit loses 1 MP permanently. No action required"
+    },
+    {
+      "id": "unknown",
+      "name": "???",
+      "desc": "The pages are blank. Something stirs within."
+    }
   ],
-
   "spells": [
-    { "id": "fog",    "name": "Fog",    "school": "Control",    "target": 4, "effect": "Place a 4-unit fog zone. Blocks line of sight. Lasts for 3 turns" },
-    { "id": "bind",   "name": "Bind",   "school": "Control",    "target": 4, "effect": "Target cannot move, attack, or be attacked until their next turn. Units in melee with them may leave freely." },
-    { "id": "push",   "name": "Push",   "school": "Control",    "target": 2, "effect": "Knock a target 2 units in any direction. If they hit terrain or a unit they take a Poise Shred of 1 CP." },
-    { "id": "swap",   "name": "Swap",   "school": "Control",    "target": 5, "effect": "Two units within line of sight of the caster swap positions instantly." },
-    { "id": "expose", "name": "Expose", "school": "Disruption", "target": 5, "effect": "Target's Current Poise counts as half for being hit this turn." },
-    { "id": "rust",   "name": "Rust",   "school": "Disruption", "target": 4, "effect": "Target's weapon damage is reduced by 1 until the start of their next turn." },
-    { "id": "rally",  "name": "Rally",  "school": "Support",    "target": 3, "effect": "One ally recovers Poise equal to the wizard's Poise Recovery." },
-    { "id": "ward",   "name": "Ward",   "school": "Support",    "target": 3, "effect": "One ally cannot be targeted by ranged attacks until they move or attack." },
-    { "id": "haste",  "name": "Haste",  "school": "Support",    "target": 5, "effect": "One ally may move again after attacking this turn." },
-    { "id": "bramble", "name": "Brambles", "school": "Control", "target": 2, "effect": "Target's movement reduced to 1 until end of their next turn.", "restrictedTo":["hedge_mage"] },
-     { "id": "presense", "name": "Presence", "school": "Support", "target": 4, "effect": "Enemies within 3 units of a target friendly must spend 1 extra CP on any action directed at that unit this turn.", "restrictedTo":["court_wizard"] },
-     { "id": "raise", "name": "Raise", "school": "Control", "target": 5, "effect": "When a unit is knocked out within 6 units of the Necromancer, they may spend 4 CP to raise that unit as a Skeleton.", "restrictedTo":["necromancer","lich"],"cost":4 }
+    {
+      "id": "fog",
+      "name": "Fog",
+      "school": "Control",
+      "target": 4,
+      "effect": "Place a 4-unit fog zone. Blocks line of sight. Lasts for 3 turns"
+    },
+    {
+      "id": "bind",
+      "name": "Bind",
+      "school": "Control",
+      "target": 4,
+      "effect": "Target cannot move, attack, or be attacked until their next turn. Units in melee with them may leave freely."
+    },
+    {
+      "id": "push",
+      "name": "Push",
+      "school": "Control",
+      "target": 2,
+      "effect": "Knock a target 2 units in any direction. If they hit terrain or a unit they take a Poise Shred of 1 CP."
+    },
+    {
+      "id": "swap",
+      "name": "Swap",
+      "school": "Control",
+      "target": 5,
+      "effect": "Two units within line of sight of the caster swap positions instantly."
+    },
+    {
+      "id": "expose",
+      "name": "Expose",
+      "school": "Disruption",
+      "target": 5,
+      "effect": "Target's Current Poise counts as half for being hit this turn."
+    },
+    {
+      "id": "rust",
+      "name": "Rust",
+      "school": "Disruption",
+      "target": 4,
+      "effect": "Target's weapon damage is reduced by 1 until the start of their next turn."
+    },
+    {
+      "id": "rally",
+      "name": "Rally",
+      "school": "Support",
+      "target": 3,
+      "effect": "One ally recovers Poise equal to the wizard's Poise Recovery."
+    },
+    {
+      "id": "ward",
+      "name": "Ward",
+      "school": "Support",
+      "target": 3,
+      "effect": "One ally cannot be targeted by ranged attacks until they move or attack."
+    },
+    {
+      "id": "haste",
+      "name": "Haste",
+      "school": "Support",
+      "target": 5,
+      "effect": "One ally may move again after attacking this turn."
+    },
+    {
+      "id": "bramble",
+      "name": "Brambles",
+      "school": "Control",
+      "target": 2,
+      "effect": "Target's movement reduced to 1 until end of their next turn.",
+      "restrictedTo": [
+        "hedge_mage"
+      ]
+    },
+    {
+      "id": "presense",
+      "name": "Presence",
+      "school": "Support",
+      "target": 4,
+      "effect": "Enemies within 3 units of a target friendly must spend 1 extra CP on any action directed at that unit this turn.",
+      "restrictedTo": [
+        "court_wizard"
+      ]
+    },
+    {
+      "id": "raise",
+      "name": "Raise",
+      "school": "Control",
+      "target": 5,
+      "effect": "When a unit is knocked out within 6 units of the Necromancer, they may spend 4 CP to raise that unit as a Skeleton.",
+      "restrictedTo": [
+        "necromancer",
+        "lich"
+      ],
+      "cost": 4
+    }
   ]
 }

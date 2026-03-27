@@ -167,19 +167,9 @@
       <div class="section">
         <div class="section-title">Tags</div>
         <div class="chip-list">
-          <!-- Auto-derived from _blocks (read-only) -->
           <div v-for="tag in derivedTags" :key="'auto-' + tag" class="chip chip-auto">
             <span>{{ tag }}</span>
           </div>
-          <!-- User-defined extras (editable) -->
-          <div v-for="(tag, i) in draft.specials" :key="i" class="chip">
-            <span>{{ tag }}</span>
-            <button class="chip-rm" @click="draft.specials.splice(i, 1)">×</button>
-          </div>
-        </div>
-        <div class="add-row">
-          <input class="field-input" v-model="newTag" placeholder="New tag…" @keyup.enter="addTag" />
-          <button class="btn-add-tag" @click="addTag">Add</button>
         </div>
       </div>
 
@@ -435,20 +425,8 @@ watch(
 const editorTab = ref('form')
 const jsonText  = ref('')
 const jsonError = ref('')
-const newTag    = ref('')
-
-// Labels that applyBlockStats auto-derives — strip them from specials before editing
-const ALL_BLOCK_LABELS = new Set([
-  ...BUILD_RULES.experience.map(e => e.label),
-  ...BUILD_RULES.armour.map(a => a.label),
-  'Spellcaster',
-])
-
 function startEdit(unit) {
   const copy = JSON.parse(JSON.stringify(unit))
-  if (copy._blocks) {
-    copy.specials = (copy.specials ?? []).filter(s => !ALL_BLOCK_LABELS.has(s))
-  }
   draft.value     = copy
   editorTab.value = 'form'
   jsonError.value = ''
@@ -488,11 +466,6 @@ function toggleGrantedSpell(spellId) {
   else            draft.value.grantedSpells.push(spellId)
 }
 
-function addTag() {
-  const t = newTag.value.trim()
-  if (t && !draft.value.specials.includes(t)) draft.value.specials.push(t)
-  newTag.value = ''
-}
 
 function switchToJson() {
   jsonText.value  = JSON.stringify(draft.value, null, 2)

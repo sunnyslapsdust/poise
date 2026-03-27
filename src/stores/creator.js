@@ -34,7 +34,7 @@ export const useCreatorStore = defineStore('creator', () => {
       wtype:      stats.wtype,
       isWizard:   stats.isWizard,
       spellSlots: stats.spellSlots,
-      specials:   [...autoTags, ...(u.specials ?? [])],
+      specials:   autoTags,
     }
   }
 
@@ -98,7 +98,6 @@ export const useCreatorStore = defineStore('creator', () => {
       name: 'New Unit',
       role: 'Unit',
       ...stats,
-      specials: [],
       abilities: [],
       items: [],
       grantedSpells: [],
