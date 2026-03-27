@@ -14,7 +14,6 @@ On your turn you may spend CP freely across any of your units.
 
 | Action | Cost |
 |--------|------|
-| Move | 1 CP per unit |
 | Attack | 2 CP (or as listed) |
 | Recover | Free once per turn |
 

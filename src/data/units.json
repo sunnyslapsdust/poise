@@ -798,7 +798,7 @@
     },
     "knight_training": {
       "name": "Knight Training",
-      "desc": "+1 Poise Recovery from formal training in armored fighting",
+      "desc": "+1 Poise Recovery from formal training in armor",
       "pr": 1
     }
   },

@@ -514,7 +514,7 @@ function rollSpell() {
 .row-unit-role { font-size: 10px; color: var(--muted); letter-spacing: .04em; white-space: nowrap; flex-shrink: 0; }
 .row-sub-sep { font-size: 9px; color: var(--dim); flex-shrink: 0; }
 .row-unit-name { font-size: 18px; font-family: var(--font-display); letter-spacing: .04em; line-height: 1.1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; cursor: text; }
-.row-unit-name-input { font-size: 18px; font-family: var(--font-display); letter-spacing: .04em; line-height: 1.1; background: transparent; border: none; border-bottom: 1px solid var(--dim); outline: none; min-width: 0; width: 8em; padding: 0; font-family: inherit; }
+.row-unit-name-input { font-size: 18px; font-family: var(--font-display); letter-spacing: .04em; line-height: 1.1; color: inherit; background: transparent; border: none; border-bottom: 1px solid; outline: none; min-width: 0; width: 8em; padding: 0;}
 
 .row-stats { display: flex; gap: 5px; align-items: center; flex-shrink: 0; }
 .rs { display: flex; flex-direction: column; align-items: center; min-width: 32px; }
