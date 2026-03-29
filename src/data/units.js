@@ -60,10 +60,10 @@ export function calcUnitStats(blocks, abilities = [], items = []) {
   const itemMods  = calcItemModifiers(items)
   return {
     ...base,
-    mp:  Math.max(1, base.mp  + mods.mp  + itemMods.mp),
-    pr:  Math.max(0, base.pr  + mods.pr  + itemMods.pr),
-    mov: Math.max(1, base.mov + mods.mov + itemMods.mov),
-    dmg: Math.max(0, base.dmg + mods.dmg + itemMods.dmg),
+    mp:  Math.max(1, base.mp  + mods.mp)  + itemMods.mp,
+    pr:  Math.max(0, base.pr  + mods.pr)  + itemMods.pr,
+    mov: Math.max(1, base.mov + mods.mov) + itemMods.mov,
+    dmg: Math.max(0, base.dmg + mods.dmg) + itemMods.dmg,
   }
 }
 
